@@ -4,7 +4,7 @@
 - Rails 6.1.7.6
 # 実行手順
 ```
-git clone
+git clone git@github.com:poon0523/money_design_app.git
 cd money_design_app
 bundle install
 rails db:create && rails db:migrate
@@ -21,5 +21,13 @@ https://drive.google.com/file/d/11G1ERp-meiERYQ1uAZtDbOQTXGnXwiQA/view?usp=shari
 ![ER図（GitHub添付） drawio](https://github.com/poon0523/money_design_app/assets/92773447/e0f0f471-6a11-4cef-8a00-25e1f5c7edcf)
 
 # 画面遷移図
+- 【注意】1シートにすべての画面遷移を表現することが難しかったため、「ログアウト中の場合」「一般ユーザーがログイン中の場合」「管理者がログイン中の場合」で分けています
+
 https://drive.google.com/file/d/1uv1-Wifj6hqAvFROMwJNfJf6y8oEYlVw/view?usp=sharing
+
+![画面遷移図-ログアウト中の場合 drawio (1)](https://github.com/poon0523/money_design_app/assets/92773447/51ca5d9e-57b0-4bdf-9b32-4f591124cffe)
+
+![画面遷移図-一般ユーザーがログイン中の場合 drawio (1)](https://github.com/poon0523/money_design_app/assets/92773447/94e5e1ac-ada5-4d38-91d1-deb6711585da)
+
+![画面遷移図-管理者がログイン中の場合 drawio (1)](https://github.com/poon0523/money_design_app/assets/92773447/1809015d-9a09-41a8-a3af-a8fe9222e292)
 
