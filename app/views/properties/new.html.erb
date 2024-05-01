@@ -1,0 +1,35 @@
+<h1 class="form_title"><%= t('.title') %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="form_container">
+    <div>
+        <%= form_with url: properties_get_selected_household_url, method: :get do |select_household| %>
+            <%= select_household.label "資産状況のベースとなる家計状況を選択ください" %><br>
+            <small>※すでに資産情報が登録されている家計情報を選択した場合は編集画面となります</small><br>
+            <%= select_household.collection_select :selected_household, current_user.households.all, :id, :title, selected:@household, class: "form-select" %>
+            <%= select_household.hidden_field :for_show_or_new_action, value: "new" %>
+            <%= select_household.submit "編集対象として選択する", class: "form_btn" %>
+        <% end %>  
+    </div>
+
+    <br>
+
+    <% if @property.present? %>
+        <%= render 'form', property: @property %>
+
+        <% if current_user.children_number > 0 %>
+            <%= render '/children/form', children: @children %>
+        <% end %>
+
+        <br>
+    <% end %>
+
+</div>
+
+<%= javascript_pack_tag 'property_child_submit', 'data-turbolinks-track': 'reload' %>
+

@@ -1,0 +1,52 @@
+<h1 class="index_title"><%= "#{current_user.name}さんの家計状況一覧" %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="index_container">
+  <div class="actions">
+    <%= button_to t('common.new'), new_household_path , method: :get, class: "form_btn" %>
+  </div>
+
+  <table class="index_table">
+    <thead>
+      <tr>
+        <th><%= Household.human_attribute_name(:id) %></th>
+        <th><%= Household.human_attribute_name(:title) %></th>
+        <th><%= Household.human_attribute_name(:created_at) %></th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @households.each do |household| %>
+        <tr>
+          <td><%= household.id %></td>
+          <td><%= household.title %></td>
+          <td><%= household.created_at %></td>
+          <td>
+            <%= link_to household do %>
+              <i class="bi bi-file-text"></i><%= t('common.show') %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_household_path(household) do %>
+              <i class="bi bi-pencil"></i><%= t('common.edit') %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to household, method: :delete, data: { confirm: t('common.confirm_destroy') } do %>
+              <i class="bi bi-trash"></i><%= t('common.destroy') %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+</div>

@@ -1,0 +1,13 @@
+<% if @nursery_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @nursery_expense_id %>')
+<% elsif @kindergarten_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @kindergarten_expense_id %>')
+<% elsif @primary_school_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @primary_school_expense_id %>')
+<% elsif @junior_high_school_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @junior_high_school_expense_id %>')
+<% elsif @high_school_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @high_school_expense_id %>')
+<% elsif @university_expense_id %>
+    $('#<%= "#{@birth_order}th_child_education_expense_id#{@education_expense_id_field_index}" %>').val('<%= @university_expense_id %>')
+<% end %>

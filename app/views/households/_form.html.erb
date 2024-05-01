@@ -1,0 +1,59 @@
+<%= form_with(model: @household) do |form| %>
+  <% if household.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@household.errors.count, "error") %> prohibited this household from being saved:</h2>
+
+      <ul>
+        <% @household.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-5">
+    <p class="question_text">標準的な月の家計情報についてご回答ください</p><br>
+    <small>※標準的な：臨時的に発生する支出や収入が含まれない月（＝標準月）を意味します</small>
+  </div>
+  
+
+  <div class="form_field_div">
+    <%= form.label :title, class: "form_field_label" %>
+    <div>
+      <%= form.text_field :title, class: "form-control" %> 
+    </div>   
+  </div>
+
+  <% if @household.id.nil? %>
+    <% @household.expense_revenue_amounts.each do |amount| %>
+      <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %>
+        <div class="form_field_div">
+          <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+          <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+          <div>
+            <%= amount_form.text_field :amount, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+  <% else %>
+    <% Household.order_expense_revenue_amounts(@household).each do |amount| %>
+      <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %><br>
+        <div class="form_field_div">
+          <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+          <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+          <div>
+            <%= amount_form.text_field :amount, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <br>
+
+  <div class="actions">
+    <%= form.submit t('common.create'), class: "form_btn" %>
+  </div> 
+<% end %>

@@ -1,0 +1,81 @@
+<%= form_with model: property, id: "property_create_form" do |form| %>
+  <% if property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+        <% property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+
+  <%= form.hidden_field :household_id, value: property.household_id %>
+
+  <h5>1.資産について</h5>
+
+  <div>
+  <h6 class="marker-gray">Q1.投資年率はどのくらいを想定するか？</h6><br>
+    <%= form.label "(a)好調の場合の年率", class: "form_field_label" %>
+    <%= form.text_field :best_annual_interest_rate, value: property.best_annual_interest_rate, class: "form-control"%>
+    <%= form.label "(b)不調の場合の年率", class: "form_field_label"%>
+    <%= form.text_field :worst_annual_interest_rate, class: "form-control"%>
+  </div>
+
+  <br>
+
+  <div>
+  <h6 class="marker-gray">Q2.利用資産の現在価値と年間残価率は？</h6><br>
+    <%= form.label "(a-1)車の現在価格", class: "form_field_label"%>
+    <%= form.text_field :car_properties_present_value, class: "form-control" %>
+    <%= form.label "(a-2)車の年間残価率", class: "form_field_label"%>
+    <%= form.text_field :car_annual_residual_value_rate, class: "form-control" %> 
+
+    <br>
+
+    <%= form.label "(b-1)住宅の現在価格", class: "form_field_label"%>
+    <%= form.text_field :housing_properties_present_value, class: "form-control" %>
+    <%= form.label "(b-2)住宅の年間残価率", class: "form_field_label"%>
+    <%= form.text_field :housing_annual_residual_value_rate, class: "form-control" %> 
+
+    <br>
+
+    <%= form.label "(c-1)その他の現在価格", class: "form_field_label"%>
+    <%= form.text_field :other_properties_present_value, class: "form-control" %> 
+    <%= form.label "(c-2)その他の年間残価率", class: "form_field_label"%>
+    <%= form.text_field :other_annual_residual_value_rate, class: "form-control" %> 
+
+  </div>
+
+  <br>
+
+------------------------------------------------------------------------------
+  <h5>2.負債について</h5>
+
+  <div>
+  <h6 class="marker-gray">Q3.現在のローン残高と年間金利は？</h6><br>
+    <%= form.label "(a-1)車のローン残高", class: "form_field_label" %>
+    <%= form.text_field :car_present_loan_balance, class: "form-control" %>
+    <%= form.label "(a-2)車の年間金利", class: "form_field_label" %>
+    <%= form.text_field :car_loan_interest_rate, class: "form-control" %>
+    
+    <br>
+
+    <%= form.label "(b-1)住宅のローン残高", class: "form_field_label" %>
+    <%= form.text_field :housing_present_loan_balance, class: "form-control"  %> 
+    <%= form.label "(b-2)住宅のローン年間金利", class: "form_field_label" %>
+    <%= form.text_field :housing_loan_interest_rate, class: "form-control" %> 
+
+    <br>
+
+    <%= form.label "(c-1)その他のローン残高", class: "form_field_label" %>
+    <%= form.text_field :other_present_loan_balance, class: "form-control"  %> 
+    <%= form.label "(c-2)その他の年間金利", class: "form_field_label" %>
+    <%= form.text_field :other_loan_interest_rate, class: "form-control"  %> 
+
+  </div>
+
+  <br>
+<% end %>

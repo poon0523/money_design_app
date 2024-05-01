@@ -1,0 +1,70 @@
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="main_container">
+    <div class="col-7 d-flex align-items-center justify-contents-center">
+        <div class="container-fluid">
+            <p class="h1">~家計管理と生活設計アプリケーション~</p>
+            <h1 class="display-3 marker-yellow">今と未来のお金のデザイン</h1>
+        </div>
+    </div>
+    <div class="col-5 d-flex align-items-center justify-contents-center">
+        <%= image_tag '今と未来のお金のデザイン-メイン画像-ver2.jpg' , class: "img-fluid" %>
+    </div>
+</div>
+
+<div class="main_container">
+    <div>
+        <h1 class="marker-gray">できること</h1>
+    </div>
+    <div class="row">
+        <div class="col-4 mt-5">
+            <h6  class="marker-gray" >質問形式で簡単に家計状況を細かく登録・観察できる</h6><br>
+            <h6 class="small">臨時的に発生する収支が含まれない月（＝標準月）の家計情報、</h6>
+            <h6 class="small">現在の保有資産、ローン、今後発生する教育費の情報を登録できます</h6>
+            <%= image_tag '今と未来のお金のデザイン-できること1イメージ-簡単登録.jpg' , class: "img-fluid", style: "max-width: 80%;" %>
+        </div>
+
+        <div class="col-4 mt-5">
+            <h6  class="marker-gray">専門知識がなくても家計の改善ポイントがわかる</h6><br>
+            <h6 class="small">年収と家族構成に応じた収支比率の基準値をシステム内で保持し、</h6>
+            <h6 class="small">実際の収支比率が基準値を上回ったら赤字で表示します</h6>
+            <%= image_tag '今と未来のお金のデザイン-できること3イメージ-分析.jpg' , class: "img-fluid", style: "max-width: 100%;" %>
+        </div>
+
+        <div class="col-4 mt-5">
+            <h6  class="marker-gray">「最も良い状態」と「最も悪い状態」に分けて</h6>
+            <h6  class="marker-gray">将来の資産状況をグラフで観察できる</h6><br>
+            <h6 class="small">「良い状態」と「悪い状態」の差は投資の年利によって表現します</h6>
+            <%= image_tag '今と未来のお金のデザイン-できること2イメージ-グラフ.jpg' , class: "img-fluid", style: "max-width: 60%;" %>
+        </div>
+    </div>
+
+</div>
+
+<div class="main_container">
+    <div>
+        <h1 class="marker-gray">ご利用の流れ</h1>
+    </div>
+    <div class="row">
+    <div class="col-4 mt-5">
+        <h6  class="marker-gray" >Step1：3種類（個人、家計、資産）の基本情報の登録</h6><br>
+        <h6 class="small">FPがお客様にヒアリングをしながら登録します</h6>
+        <%= image_tag '今と未来のお金のデザイン-ご利用の流れ1イメージ-基本情報登録.jpg' , class: "img-fluid", style: "max-width: 100%;" %>
+    </div>
+    <div class="col-4 mt-5">
+        <h6  class="marker-gray" >Step2：現在の家計状況と今後の資産状況の推移を分析</h6><br>
+        <h6 class="small">Step1で登録した基本情報に基づき、それぞれの結果が表示されます</h6>
+        <%= image_tag '今と未来のお金のデザイン-ご利用の流れ2イメージ-アウトプット.jpg' , class: "img-fluid", style: "max-width: 80%;" %>
+    </div>
+    <div class="col-4 mt-5">
+        <h6  class="marker-gray" >Step3：分析結果を参考に家計情報の理想額を登録</h6><br>
+        <h6 class="small">FPがお客様が目指す資産の状態をヒアリングしながら登録します</h6>
+        <%= image_tag '今と未来のお金のデザイン-ご利用の流れ3イメージ-理想登録.jpg' , class: "img-fluid", style: "max-width: 90%;" %>
+    </div>
+</div>
+

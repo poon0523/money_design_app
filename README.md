@@ -1,4 +1,5 @@
 # README
+<<<<<<< HEAD
 # 開発言語
 - ruby 3.0.1
 - Rails 6.1.7.6
@@ -31,3 +32,28 @@ https://drive.google.com/file/d/1uv1-Wifj6hqAvFROMwJNfJf6y8oEYlVw/view?usp=shari
 
 ![画面遷移図-管理者がログイン中の場合 drawio (1)](https://github.com/poon0523/money_design_app/assets/92773447/1809015d-9a09-41a8-a3af-a8fe9222e292)
 
+=======
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
+>>>>>>> aea60fe (not tested but finished to develop all functions and UI design)

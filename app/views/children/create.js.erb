@@ -1,0 +1,37 @@
+ $(function(){
+    var submit_result_list = "";
+
+    function confirm_save_success(){
+        var save_success = "<%= @save_success %>";
+        return new Promise((resolve) => {
+            if (save_success == "true"){
+                $('#<%= "#{@birth_order}th_child_form_submit_check"%>').val('successed');
+            } else {
+                $('#<%= "#{@birth_order}th_child_form_submit_check"%>').val('failed');
+            };
+            resolve()
+        })
+    };
+
+    confirm_save_success().then(function(){
+        setTimeout(function(){
+            var submit_result_list = $('input[class="check"]').map(function(){
+                return $(this).val();});
+            var result_unsubmit = (submit_result_list).get().indexOf("unsubmit");
+            var result_failed = (submit_result_list).get().indexOf("failed");
+            if (result_unsubmit===-1&&result_failed===-1) {
+                console.log("すべての処理が完了");
+                $('#property_create_form').submit();
+            }
+            else
+                if (result_unsubmit===-1&&result_failed > -1) {
+                    alert("正常に保存できませんでした")
+                }
+            else {
+                console.log("処理中")
+            };
+        },1000);
+    });
+    
+
+})

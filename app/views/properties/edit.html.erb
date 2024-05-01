@@ -1,0 +1,23 @@
+<h1 class="form_title"><%= t('.title') %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="form_container">
+
+    <%= render 'form', property: @property %>
+
+    <% if current_user.children_number > 0 %>
+        <%= render '/children/form', children: current_user.children %>
+    <% end %>
+
+    <%= link_to t('common.back'), property_path(@property) %>
+
+</div>
+
+
+<%= javascript_pack_tag 'property_child_submit', 'data-turbolinks-track': 'reload' %>
+

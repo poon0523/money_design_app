@@ -1,0 +1,13 @@
+<h1 class="form_title"><%= t('.title') %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="form_container">
+    <%= render 'form', household: @household %>
+    <%= link_to t('common.back'), households_path %>
+</div>
+

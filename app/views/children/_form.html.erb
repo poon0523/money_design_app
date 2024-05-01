@@ -1,0 +1,318 @@
+------------------------------------------------------------------------------
+<h5>3.その他</h5>
+<h6 class="marker-h6">Q4.どのような教育方針に基づき教育費を算出するか？</h6><br>
+  <div>
+    <p>ご登録済みのお子様の人数：<%= current_user.children_number %>人<small>※ユーザー情報より自動出力</small></p>
+  </div>
+
+<% children.each_with_index do |child,index| %>
+    <%= form_with model: child, class: "child_create_form", local: false do |form|  %>
+        <h6><%= "<#{child.birth_order}人目のお子様の教育方針>" %></h6>
+        <input hidden id = <%= "#{child.birth_order}th_child_form_submit_check" %> class = "check" value = "unsubmit">
+        <div hidden>
+            <%= form.label :birth_order, class: "form_field_label"  %>
+            <%= form.text_field :birth_order, value: child.birth_order, class: "form-control"  %>
+        </div>
+
+        <div>
+            <%= form.label "生年月日(未来日付も入力可)", class: "form_field_label" %>
+            <%= form.text_field :birth_year_month_day, class: "form-control" %>
+        </div>
+
+        <br>
+
+        <div>
+            <%= form.label :nursery_school_start_age, class: "form_field_label"  %>
+            <%= form.text_field :nursery_school_start_age, class: "form-control" %>
+        </div>
+
+        <br>
+
+        <div>
+            <%= form.label :kindergarten_start_age, class: "form_field_label"   %>
+            <%= form.text_field :kindergarten_start_age, class: "form-control"  %>
+        </div>
+
+        <% child.child_educations.each_with_index do |education,index| %>
+            <%= form.fields_for :child_educations, education do |education_form| %>
+                <div hidden>
+                    <%= education_form.label "education_expense_id" %>
+                    <%= education_form.text_field :education_expense_id, id: "#{child.birth_order}th_child_education_expense_id#{index}", class: "child_education_expense_id"  %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <br>
+
+    <h6>a.保育園</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |nursery| %>
+
+        <div hidden>
+            <%= nursery.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= nursery.text_field :education_expense_id_field_index, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= nursery.text_field :education_institution_type, value: 1 %>
+        </div>
+
+        <div>
+            <%= nursery.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= nursery.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(1, child).management_organization %>
+            <% else %>
+                <%= nursery.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+        
+        <div hidden>
+            <%= nursery.text_field :university_major, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= nursery.text_field :boarding_house, value: 0 %>
+        </div>
+
+
+        <div hidden>
+            <%=  nursery.submit  class: "search_btn" %>
+        </div>
+        
+ 
+    <% end %>
+
+    <br>
+
+    <h6>b.幼稚園</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |kindergarten| %>
+
+        <div hidden>
+            <%= kindergarten.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= kindergarten.text_field :education_expense_id_field_index, value: 1 %>
+        </div>
+
+        <div hidden>
+            <%= kindergarten.text_field :education_institution_type, value: 2 %>
+        </div>
+
+        <div>
+            <%= kindergarten.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= kindergarten.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(2, child).management_organization %>
+            <% else %>
+                <%= kindergarten.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+        
+        <div hidden>
+            <%= kindergarten.text_field :university_major, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= kindergarten.text_field :boarding_house, value: 0 %>
+        </div>
+        
+        <div hidden>
+            <%= kindergarten.submit   class: "search_btn"  %>
+        </div>
+
+    <% end %>
+
+    <br>
+
+    <h6>c.小学校</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |primary_school| %>
+
+        <div hidden>
+            <%= primary_school.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= primary_school.text_field :education_expense_id_field_index, value: 2 %>
+        </div>
+
+        <div hidden>
+            <%= primary_school.text_field :education_institution_type, value: 3 %>
+        </div>
+
+        <div>
+            <%= primary_school.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= primary_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(3, child).management_organization %>
+            <% else %>
+                <%= primary_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+        
+        <div hidden>
+            <%= primary_school.text_field :university_major, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= primary_school.text_field :boarding_house, value: 0 %>
+        </div>
+
+        
+        <div hidden>
+            <%= primary_school.submit   class: "search_btn"  %>
+        </div>
+
+    <% end %>
+
+    <br>
+
+    <h6>d.中学校</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |junior_high_school| %>
+
+        <div hidden>
+            <%= junior_high_school.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= junior_high_school.text_field :education_expense_id_field_index, value: 3 %>
+        </div>
+
+        <div hidden>
+            <%= junior_high_school.text_field :education_institution_type, value: 4 %>
+        </div>
+
+        <div>
+            <%= junior_high_school.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= junior_high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(4, child).management_organization %>
+            <% else %>
+                <%= junior_high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+        
+        <div hidden>
+            <%= junior_high_school.text_field :university_major, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= junior_high_school.text_field :boarding_house, value: 0 %>
+        </div>
+
+        
+        <div hidden>
+            <%= junior_high_school.submit   class: "search_btn"  %>
+        </div>
+
+    <% end %>
+
+    <br>
+
+    <h6>e.高校</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |high_school| %>
+
+        <div hidden>
+            <%= high_school.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= high_school.text_field :education_expense_id_field_index, value: 4 %>
+        </div>
+
+        <div hidden>
+            <%= high_school.text_field :education_institution_type, value: 5 %>
+        </div>
+
+        <div>
+            <%= high_school.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(5, child).management_organization %>
+            <% else %>
+                <%= high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+        
+        <div hidden>
+            <%= high_school.text_field :university_major, value: 0 %>
+        </div>
+
+        <div hidden>
+            <%= high_school.text_field :boarding_house, value: 0 %>
+        </div>
+
+        
+        <div hidden>
+            <%= high_school.submit   class: "search_btn"  %>
+        </div>
+
+    <% end %>
+
+    <br>
+
+    <h6>f.大学</h6>
+    <%= form_with url: children_search_education_expenses_path, class: "education_expense_id_search_form",  method: :get, local: false do |university| %>
+
+        <div hidden>
+            <%= university.text_field :birth_order, value: child.birth_order %>
+        </div>
+
+        <div hidden>
+            <%= university.text_field :education_expense_id_field_index, value: 5 %>
+        </div>
+
+        <div>
+            <%= university.label "専門学校／4年生大学／6年生大学" %>
+            <% if child.child_educations.exists? %>
+                <%= university.collection_select :education_institution_type, EducationExpense.select("education_institution_type").distinct.where(education_institution_type: 6..8), :education_institution_type, :education_institution_type, selected: child.get_child_education_data(6..8,child).education_institution_type %>
+            <% else %>
+                <%= university.collection_select :education_institution_type, EducationExpense.select("education_institution_type").distinct.where(education_institution_type: 6..8), :education_institution_type, :education_institution_type %>
+            <% end %>
+        </div>
+
+        <br>
+
+        <div>
+            <%= university.label "公立／私立" %>
+            <% if child.child_educations.exists? %>
+                <%= university.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(6..8, child).management_organization %>
+            <% else %>
+                <%= university.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+            <% end %>
+        </div>
+
+        <br>
+        
+        <div>
+            <%= university.label "理系／文系" %>
+            <% if child.child_educations.exists? %>
+                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major, selected: child.get_child_education_data(6..8, child).university_major %>
+            <% else %>
+                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major %>
+            <% end %>
+        </div>
+
+        <br>
+        
+        <div>
+            <%= university.label "下宿あり／なし" %>
+            <% if child.child_educations.exists? %>
+                <%= university.collection_select :boarding_house, EducationExpense.select("boarding_house").distinct, :boarding_house, :boarding_house, selected: child.get_child_education_data(6..8, child).boarding_house %>
+            <% else %>
+                <%= university.collection_select :boarding_house, EducationExpense.select("boarding_house").distinct, :boarding_house, :boarding_house %>
+            <% end %>
+        </div>
+
+        <div hidden>
+            <%= university.submit   class: "search_btn"  %>
+        </div>
+
+    <% end %>
+<% end %>
+
+<br>
+
+<div class="actions">
+    <button type="submit", id="property_child_submit_btn", class="form_btn"><%= t('common.update') %></button>
+</div>
+

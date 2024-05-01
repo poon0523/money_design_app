@@ -1,0 +1,155 @@
+<h1 class="index_title"><%= "「#{@household.title}」詳細" %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="index_container">
+    <% if @ideal_created_id || @household.title.include?("調整版")  %>
+        <div class="actions">
+            <%= link_to edit_household_path(@household) do %>
+                <i class="bi bi-pencil"></i><%= t('common.edit') %>
+            <% end %>
+            <%= link_to households_path do %>
+                <i class="bi bi-back"></i><%= t('common.back') %>
+            <% end %>
+</div>
+        <table class="household_show_table">
+            <tr>
+                <th rowspan="3" colspan="2"><%= t('.household_table_header1_revenue_and_expense_item') %></th>
+                <th colspan="2" id="present_situation" ><%= t('.household_table_header2_present_situation_item') %></th>
+                <th rowspan="2"><%= t('.household_table_header3_Standard_balance_ratio_item') %></th>
+            </tr>
+            <tr>
+                <th headers="present_situation"><%= t('.amount_of_money') %></th>
+                <th headers="present_situation"><%= t('.balance_ratio') %></th>
+            </tr>
+
+            <tbody>
+
+            
+            <% @household_detail.each do |household_ideal| %>
+                <tr>
+                    <% if household_ideal.expense_revenue_item.category_id == 1 %>
+                        <th data-model = "major_classification">収入</th>
+                        <th><%= household_ideal.expense_revenue_item.name %></td>
+                        <td><%= household_ideal.amount %></td>
+                        <td>-</td>
+                        <td>-</td>
+
+                    <% elsif household_ideal.expense_revenue_item.category_id == 2  %>
+                        <th data-model = "major_classification">固定費</th>
+                        <th><%= household_ideal.expense_revenue_item.name %></td>
+                        <td><%= household_ideal.amount %></td>
+                        <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
+                        <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
+
+                    <% elsif household_ideal.expense_revenue_item.category_id == 3 %>
+                        <th data-model = "major_classification">変動費</th>
+                        <th><%= household_ideal.expense_revenue_item.name %></td>
+                        <td><%= household_ideal.amount %></td>
+                        <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
+                        <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
+                    <% end %>
+                </tr>
+            <% end %>
+
+            </tbody>
+        </table>
+
+        <div class="actions">
+            <% if @household.title.exclude?("調整版") %>
+             <%= link_to "(調整版）#{@household.title}", household_path(@ideal_created_id) %>
+            <% else %>
+            <% end %>
+        </div>
+
+    <% else %>
+
+        <%= form_with(model: @ideal_households) do |form| %>
+            <div class="actions">
+                <%= link_to edit_household_path(@household) do %>
+                    <i class="bi bi-pencil"></i><%= t('common.edit') %>
+                <% end %>
+                <%= link_to households_path do %>
+                    <i class="bi bi-back"></i><%= t('common.back') %>
+                <% end %>
+            </div>
+            <table class="household_show_table">
+                <tr>
+                    <th rowspan="3" colspan="2"><%= t('.household_table_header1_revenue_and_expense_item') %></th>
+                    <th colspan="2" id="present_situation" ><%= t('.household_table_header2_present_situation_item') %></th>
+                    <th rowspan="2"><%= t('.household_table_header3_Standard_balance_ratio_item') %></th>
+                    <th colspan="2" id="ideal_situation"><%= t('.household_table_header4_ideal_situation_item') %></th>
+                </tr>
+                <tr>
+                    <th headers="present_situation"><%= t('.amount_of_money') %></th>
+                    <th headers="present_situation"><%= t('.balance_ratio') %></th>
+                    <th headers="ideal_situation"><%= t('.amount_of_money') %></th>
+                    <th headers="ideal_situation"><%= t('.balance_ratio') %></th>
+                </tr>
+
+                <tbody>
+
+                
+                <% @household_detail.each do |household_ideal| %>
+                    <tr>
+                        <% if household_ideal.expense_revenue_item.category_id == 1 %>
+                            <th data-model = "major_classification">収入</th>
+                            <th><%= household_ideal.expense_revenue_item.name %></td>
+                            <td><%= household_ideal.amount %></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><input id = "revenue", data-model = "input", value = <%= household_ideal.amount %> class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><p data-model = "balance_ratio"></td>
+
+                        <% elsif household_ideal.expense_revenue_item.category_id == 2  %>
+                            <th data-model = "major_classification">固定費</th>
+                            <th><%= household_ideal.expense_revenue_item.name %></td>
+                            <td><%= household_ideal.amount %></td>
+                            <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
+                            <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
+                            <td><input data-model = "input", value = 0 class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><p data-model = "balance_ratio"></td>
+
+                        <% elsif household_ideal.expense_revenue_item.category_id == 3 %>
+                            <th data-model = "major_classification">変動費</th>
+                            <th><%= household_ideal.expense_revenue_item.name %></td>
+                            <td><%= household_ideal.amount %></td>
+                            <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
+                            <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
+                            <td><input data-model = "input", value = 0 class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><p data-model = "balance_ratio"></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+
+                </tbody>
+            </table>
+
+            <div hidden>
+                <%= form.text_field :title, value: "(調整版）#{@household.title}" %>
+                <% @ideal_households.expense_revenue_amounts.each do |amount| %>
+                    <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %>
+                        <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+                        <%= amount_form.text_field :amount, data: {model: 'ideal_household_form'} %>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <br>
+
+            <div class="actions">
+                <%= form.submit "調整版を登録",class: "form_btn" %>
+            </div>
+            
+            <br>
+        <% end %>
+
+    <% end %>
+
+</div>
+
+<%= javascript_pack_tag 'calc_ideal_balance_ratio', 'data-turbolinks-track': 'reload' %>

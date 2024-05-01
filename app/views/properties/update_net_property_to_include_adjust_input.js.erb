@@ -1,0 +1,85 @@
+$(function(){
+    var chart_label_dataset=[]
+    var chart_best_net_property=[]
+    var chart_worst_net_property=[]
+    var summary_chart
+
+    function update_property_and_liability(){
+      return new Promise((resolve) => {       
+        <% @update_best_net_property_list.each_with_index do |update_best_net_property,index| %>
+            $('.best_net_property_<%= index %>').html('<%= update_best_net_property.round %>')
+            $('.chart_best_net_property_data_<%= index %>').val('<%= update_best_net_property.round %>')
+            $('.chart_best_net_property_data_<%= index %>').attr("Value", '<%= update_best_net_property.round %>')
+        <% end %>
+
+        <% @update_worst_net_property_list.each_with_index do |update_worst_net_property,index| %>
+          $('.worst_net_property_<%= index %>').html('<%= update_worst_net_property.round %>')
+          $('.chart_worst_net_property_data_<%= index %>').val('<%= update_worst_net_property.round %>')
+          $('.chart_worst_net_property_data_<%= index %>').attr("Value", '<%= update_worst_net_property.round %>')
+        <% end %>
+        
+
+        resolve();
+      });
+    };
+        
+    update_property_and_liability().then(function(){
+      chart_label_dataset = ($('.chart_label_data').map(function(){
+        return $(this).val()
+      })).get();
+      chart_best_net_property = ($('input[data-model = "best_net_property"]').map(function(){
+        return $(this).val()
+      })).get();
+      console.log(chart_best_net_property)
+      chart_worst_net_property = ($('input[data-model = "worst_net_property"]').map(function(){
+        return $(this).val()
+      })).get();
+      console.log(chart_worst_net_property)
+    })
+    
+    .then(function(){
+        var pre_chart = Chart.getChart("property_chart");
+        if(pre_chart){
+          pre_chart.destroy();
+          new Chart(
+            $('#property_chart'),
+          {
+            type: 'line',
+            data: {
+              labels: chart_label_dataset,
+              datasets: [
+                {
+                  label: 'ベスト-純資産',
+                  data: chart_best_net_property,
+                },
+                {
+                  label: 'ワースト-純資産',
+                  data: chart_worst_net_property                  
+                }
+              ]
+            }
+          }
+        );
+        } else {
+          new Chart(
+            $('#property_chart'),
+          {
+            type: 'line',
+            data: {
+              labels: chart_label_dataset,
+              datasets: [
+                {
+                  label: 'ベスト-純資産',
+                  data: chart_best_net_property,
+                },
+                {
+                  label: 'ワースト-純資産',
+                  data: chart_worst_net_property                  
+                }
+              ]
+            }
+          }
+        );
+        }
+      })
+})

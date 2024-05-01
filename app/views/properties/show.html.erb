@@ -1,0 +1,296 @@
+<h1 class="form_title"><%= t('.title') %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<% if @property.nil? %>
+    <h6 class="marker-gray">どの家計状況をベースに資産状況を確認するか選択ください</h6>
+<% end %>
+
+<%= form_with url: properties_get_selected_household_url, method: :get do |select_household| %>
+    <%= select_household.label "資産状況確認対象の家計状況" %>
+    <%= select_household.collection_select :selected_household , @households, :id, :title, { selected: @household.id }  %>
+    <%= select_household.hidden_field :for_show_or_new_action, value: "show" %>
+    <%= select_household.submit t('common.desplay'), class: "form_btn" %>
+<% end %>
+
+<% if @property.present? %>
+    <br>
+    <div>
+        <%= link_to edit_property_path(@property) do %>
+            <i class="bi bi-pencil"></i><%= t('.edit_link') %>
+        <% end %>
+    </div>
+    <br>
+    
+    <div class="property_container">
+        <h2 class="text-start">純資産推移</h2>
+
+        <canvas id="property_chart"></canvas>
+
+    </div>
+
+
+    <div class="property_container">
+        <div class="text-start">
+            <h2>ベストケースとワーストケースの純資産額</h2>
+            <small>※ベストケースとワーストケースの違いは年間の投資利益率</small>
+        </div>
+        <table class="property_table">
+            <tr>
+                <th>年間資産・負債・純資産</th>
+                <% Property.create_years_list_every_5years.each do |year| %>
+                    <th><%= year %></th>
+                    <input hidden class = "chart_label_data" value = "<%= year %>">
+                <% end %>
+            </tr>
+
+            <tr>
+                <th>ベスト</th>
+                <% Property.data_extraction_every_5years(@best_net_property).each_with_index do |annual_net_property,index| %>
+                    <td class="best_net_property_<%= index %>"><%= annual_net_property.round %></td>
+                    <input hidden class = "chart_best_net_property_data_<%= index %>" data-model = "best_net_property"  value = "<%= annual_net_property %>">           
+                <% end %>
+            </tr>
+
+            <tr>
+                <th>ワースト</th>
+                <% Property.data_extraction_every_5years(@worst_net_property).each_with_index do |annual_net_property,index| %>
+                    <td class="worst_net_property_<%= index %>"><%= annual_net_property.round %></td>
+                    <input hidden class = "chart_worst_net_property_data_<%= index %>" data-model = "worst_net_property"  value = "<%= annual_net_property %>">           
+                <% end %>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <div class="property_container">
+        <%= form_with url: properties_update_net_property_to_include_adjust_input_path, id: "adjust_input_form", method: :get, local: false do |adjust_input| %>
+        <h2 class="text-start">純資産の内訳-a.ベストケース</h2>
+        <table class="property_table">
+            <tr>
+                <th colspan=2>資産・負債項目</th>
+                <% Property.create_years_list_every_5years.each do |year| %>
+                    <th><%= year %></th>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th  colspan=2>現金・貯蓄</th>
+                <% Property.data_extraction_every_5years(@cash_and_saving).each do |annual_cash_and_saving| %>
+                    <td><%= annual_cash_and_saving.round %></td>
+                <% end %>
+                </div>
+            </tr>
+
+            <tr>
+                <th colspan=2>投資資産</th>
+                <% Property.data_extraction_every_5years(@best_investment_properties).each do |investment| %>
+                    <td><%= investment.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_best_case"  >使用資産</th>
+                <th >車</th>
+                <% Property.data_extraction_every_5years(@car_property).each do |present_car_property| %>
+                    <td><%= present_car_property.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_best_case" >使用資産</th>
+                <th >住宅</th>
+                <% Property.data_extraction_every_5years(@housing_property).each do |present_housing_property| %>
+                    <td><%= present_housing_property.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_best_case" >使用資産</th>
+                <th >その他</th>
+                <% Property.data_extraction_every_5years(@other_property).each do |present_other_property| %>
+                    <td><%= present_other_property.round %></td>
+                <% end %>
+            </tr>
+            
+            <tr>
+                <th data-model = "major_classification_for_best_case" >ローン</th>
+                <th >車</th>
+                <% Property.data_extraction_every_5years(@car_loan).each do |present_car_loan_balance| %>
+                    <td><%= present_car_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_best_case" >ローン</th>
+                <th >住宅</th>
+                <% Property.data_extraction_every_5years(@housing_loan).each do |present_housing_loan_balance| %>
+                    <td><%= present_housing_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+        
+            <tr>
+                <th data-model = "major_classification_for_best_case" >ローン</th>
+                <th >その他</th>
+                <% Property.data_extraction_every_5years(@other_loan).each do |present_other_loan_balance| %>
+                    <td><%= present_other_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+            
+            <% if current_user.children_number > 0 %>
+                <% @children.each do |child| %>
+                    <tr>
+                        <th data-model = "major_classification_for_best_case" >教育費</th>
+                        <th ><%= "#{child.birth_order}人目" %></th>
+                        <% Property.data_extraction_every_5years(@property.create_education_expense_list(child)).each do |education_expense| %>      
+                            <td><%= education_expense.round %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            <% end %>
+
+            <tr>
+                <th colspan=2>臨時収入</th>
+                <% Property.create_years_list_every_5years.length.times do %>
+                    <td><%= adjust_input.text_field 'best_adjust_revenue_input[]', value: 0, data: {model: 'adjust'}, size: 8, class: "adjust_input_form" %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th colspan=2>臨時出費</th>
+                <% Property.create_years_list_every_5years.length.times do %>
+                    <td><%= adjust_input.text_field 'best_adjust_expenditure_input[]', value: 0, data: {model: 'adjust'}, size: 8, class: "adjust_input_form" %></td>
+                <% end %>
+            </tr>
+
+        </table>
+            <%= adjust_input.hidden_field :property, value: @property.id %>
+            <%= adjust_input.hidden_field :household, value: @household.id %>
+            <% @children.each do |child| %>
+                <%= adjust_input.hidden_field 'child[]', value: child.id %>
+            <% end %>
+    </div>
+
+    <div class="property_container">
+
+        <h2 class="text-start">純資産の内訳-b.ワーストケース</h2>
+        <table class="property_table">
+            <tr>
+                <th colspan=2>資産・負債項目</th>
+                <% Property.create_years_list_every_5years.each do |year| %>
+                    <th><%= year %></th>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th colspan=2>現金・貯蓄</th>
+                <% Property.data_extraction_every_5years(@cash_and_saving).each do |annual_cash_and_saving| %>
+                    <td><%= annual_cash_and_saving.round %></td>
+                <% end %>
+                </div>
+            </tr>
+
+            <tr>
+                <th colspan=2>投資資産</th>
+                <% Property.data_extraction_every_5years(@worst_investment_properties).each do |investment| %>
+                    <td><%= investment.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_worst_case" >使用資産</th>
+                <th>車</th>
+                <% Property.data_extraction_every_5years(@car_property).each do |present_car_property| %>
+                    <td><%= present_car_property.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_worst_case">使用資産</th>
+                <th>住宅</th>
+                <% Property.data_extraction_every_5years(@housing_property).each do |present_housing_property| %>
+                    <td><%= present_housing_property.round %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_worst_case">使用資産</th>
+                <th>その他</th>
+                <% Property.data_extraction_every_5years(@other_property).each do |present_other_property| %>
+                    <td><%= present_other_property.round %></td>
+                <% end %>
+            </tr>
+            
+            <tr>
+                <th data-model = "major_classification_for_worst_case">ローン</th>
+                <th>車</th>
+                <% Property.data_extraction_every_5years(@car_loan).each do |present_car_loan_balance| %>
+                    <td><%= present_car_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+
+            <tr>
+                <th data-model = "major_classification_for_worst_case">ローン</th>
+                <th>住宅</th>
+                <% Property.data_extraction_every_5years(@housing_loan).each do |present_housing_loan_balance| %>
+                    <td><%= present_housing_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+            
+            <tr>
+                <th data-model = "major_classification_for_worst_case">ローン</th>
+                <th>その他</th>
+                <% Property.data_extraction_every_5years(@other_loan).each do |present_other_loan_balance| %>
+                    <td><%= present_other_loan_balance.round %></td>
+                <% end %>        
+            </tr>
+            <% if current_user.children_number > 0 %>
+                <% @children.each do |child| %>
+                    <tr>
+                        <th data-model = "major_classification_for_worst_case">教育費</th>
+                        <th><%= "#{child.birth_order}人目" %></th>
+                        <% Property.data_extraction_every_5years(@property.create_education_expense_list(child)).each do |education_expense| %>      
+                            <td><%= education_expense.round %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            <% end %>
+
+            <tr>
+                <th  colspan=2>臨時収入</th>
+                <% Property.create_years_list_every_5years.length.times do %>
+                    <td><%= adjust_input.text_field 'worst_adjust_revenue_input[]', value: 0, data: {model: 'adjust'}, size: 8, class: "adjust_input_form" %></td>
+                <% end %>
+            </tr>
+
+            <tr>
+                <th  colspan=2>臨時出費</th>
+                <% Property.create_years_list_every_5years.length.times do %>
+                    <td><%= adjust_input.text_field 'worst_adjust_expenditure_input[]', value: 0, data: {model: 'adjust'}, size: 8, class: "adjust_input_form" %></td>
+                <% end %>
+            </tr>
+
+        </table>
+
+            <%= adjust_input.hidden_field :property, value: @property.id %>
+            <%= adjust_input.hidden_field :household, value: @household.id %>
+            <% @children.each do |child| %>
+                <%= adjust_input.hidden_field 'child[]', value: child.id %>
+            <% end %>
+            <% @cash_and_saving.each do |cash_and_saving| %>
+                <%= adjust_input.hidden_field 'cash_and_saving[]', value: cash_and_saving %>
+            <% end %>
+
+            
+        <% end %>
+    </div>
+
+<% end %>
+
+<%= javascript_pack_tag 'property_chart', 'data-turbolinks-track': 'reload' %>
