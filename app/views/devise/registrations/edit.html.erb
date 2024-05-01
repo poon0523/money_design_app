@@ -1,0 +1,90 @@
+<h2 class="form_title"><%= t('.title', resource: devise_i18n_fix_model_name_case(resource.model_name.human, i18n_key: 'registrations.edit.title')) %></h2>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="form_container">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <br>
+
+    <div class="form_field_div">
+      <%= f.label :name, class: "form_field_label" %>
+      <div>
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :email, class: "form_field_label" %>
+      <div>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+      </div>
+    </div>
+  
+    <div class="form_field_div">
+      <%= f.label :new_password, class: "form_field_label" %>
+      <div>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :new_password_confirmation, class: "form_field_label" %>
+      <div>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :admin, class: "form_field_label" %>
+      <div>
+        <%= f.check_box :admin, autocomplete: "admin", class: "form-check-input" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :age, class: "form_field_label" %>
+      <div>
+        <%= f.number_field :age, autocomplete: "age", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :marital_status, class: "form_field_label" %><br>
+      <div>
+        <%= f.select :marital_status, [['あり',true],['なし',false]], {autocomplete: "marital_status"}, {class: 'form-select'} %>
+      </div>
+    </div>
+
+    <div class="form_field_div"> 
+      <%= f.label :spouse_age, class: "form_field_label" %>
+      <div>
+        <%= f.number_field :spouse_age, autocomplete: "spouse_age", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form_field_div">
+      <%= f.label :children_number, class: "form_field_label" %>
+      <div>
+        <%= f.number_field :children_number, autocomplete: "children_number", class: "form-control" %>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="actions">
+      <%= f.submit t('.update'), class: "form_btn" %>
+    </div>
+
+  <% end %>
+  
+</div>
+
+
+
+

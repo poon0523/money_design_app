@@ -1,0 +1,140 @@
+ja:
+  # active Recordモデルでの翻訳を指定
+  activerecord:
+    # Model.model_name.humanメソッドで参照する翻訳を定義
+    models:
+      task: タスク
+    # Model.human_attribute_name(attribute)メソッドで参照する翻訳を定義
+    attributes:
+      task:
+        title: タイトル
+        content: 内容
+        created_at: 作成日時
+        deadline_on: 終了期限
+        priority: 優先度
+        status: ステータス
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+        admin: 管理者権限
+      label:
+        name: 名前
+      expense_revenue_amounts:
+        amount: いずれかの金額
+      child:
+        birth_year_month_day: 生年月日
+        nursery_school_start_age: 保育園開始年齢
+        kindergarten_start_age: 幼稚園開始年齢
+  # Active Recordモデルのバリデーションエラーメッセージの翻訳を定義
+  errors:
+    # バリデーションエラーのエラー文の翻訳を定義（バリデーションエラーメッセージの名前はすでに決まっている）
+    format: "%{attribute}%{message}"
+    messages:
+      blank: が未入力です
+      taken: はすでに使用されています
+      too_short: は6文字以上で入力してください
+      confirmation: と%{attribute}の入力が一致しません
+      record_invalid: "バリデーションに失敗しました: %{errors}"
+  notice:
+    successful_create: 登録しました
+    successful_update: 更新しました
+    successful_delete: 削除しました
+    successful_user: アカウントを%{action}しました
+    successful_admin_user: ユーザを%{action}しました
+    successful_label: ラベルを%{action}しました
+    fail_login: メールアドレスまたはパスワードに誤りがあります
+    correct_user: アクセス権限がありません
+  common:
+    new: 新規登録
+    create: 登録
+    update: 更新
+    show: 詳細
+    edit: 編集
+    sign-up: アカウント登録
+    account-setting: アカウント設定
+    sign-in: ログイン
+    sign-out: ログアウト
+    users-index: ユーザ一覧
+    add-user: ユーザを登録する
+    labels-index: ラベル一覧
+    new-label: ラベルを登録する
+    destroy: 削除
+    back: 戻る
+    desplay: 表示する
+    confirm_destroy: 本当に削除してもよろしいですか？
+    notice_login: ログインしてください
+    notice_logout: ログアウトしてください
+    notice_admin_needs: 管理者以外アクセスできません
+    notice_prohibit_delete: 管理者が0人になるため削除できません
+    notice_prohibit_update: 管理者が0人になるため権限を変更できません
+    household_question1_revenue: テスト
+  helpers:
+    submit:
+      create: 登録する
+      update: 更新する
+  households: 
+    new:
+      title: 家計状況登録
+    edit:
+      title: 家計状況編集
+    show:
+      household_table_header1_revenue_and_expense_item: 収支項目
+      household_table_header2_present_situation_item: 現状
+      household_table_header3_Standard_balance_ratio_item: 標準収支比率
+      household_table_header4_ideal_situation_item: 目標
+      amount_of_money: 金額
+      balance_ratio: 収支比率
+  properties:
+    new:
+      title: 資産状況編集
+    show:
+      title: 資産状況詳細
+      edit_link: 資産情報を編集する
+    edit:
+      title: 資産状況編集
+  tasks:
+    index:
+      title: タスク一覧ページ
+    new:
+      title: タスク登録ページ
+    show:
+      title: タスク詳細ページ
+    edit:
+      title: タスク編集ページ
+  users:
+    new:
+      title: アカウント登録ページ
+    show:
+      title: アカウント詳細ページ
+    edit:
+      title: アカウント編集ページ
+  sessions:
+    new:
+      title: ログインページ
+    create:
+      fail: メールアドレスまたはパスワードに誤りがあります
+      success: ログインしました
+    destroy:
+      logout: ログアウトしました
+  admin:
+    users:
+      index:
+        title: ユーザ一覧ページ
+      new:
+        title: ユーザ登録ページ
+      show:
+        title: ユーザ詳細ページ
+      edit:
+        title: ユーザ編集ページ
+  labels:
+    index:
+      title: ラベル一覧ページ
+    new:
+      title: ラベル登録ページ
+    edit:
+      title: ラベル編集ページ
+
+    
+

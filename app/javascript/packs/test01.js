@@ -1,0 +1,1 @@
+import "test03.js.erb"

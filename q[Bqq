@@ -1,0 +1,18 @@
+
+[1mFrom:[0m /home/maiko/money_design_app/app/controllers/properties_controller.rb:42 PropertiesController#update_net_property_to_include_adjust_input:
+
+    [1;34m30[0m: [32mdef[0m [1;34mupdate_net_property_to_include_adjust_input[0m
+    [1;34m31[0m:   @adjust_revenue_input_list = params[[33m:adjust_revenue_input[0m].map{|revenue| revenue.to_i }
+    [1;34m32[0m:   @adjust_expenditure_input_list = params[[33m:adjust_expenditure_input[0m].map{|expenditure| expenditure.to_i }
+    [1;34m33[0m:   @property = [1;34;4mProperty[0m.find(params[[33m:property[0m])
+    [1;34m34[0m:   @household = current_user.households.find(params[[33m:household[0m])
+    [1;34m35[0m:   @children = current_user.children.find(params[[33m:child[0m])
+    [1;34m36[0m:   @update_total_property_list = [@property.total_property(@property,@household),@adjust_revenue_input_list].transpose.map{|update_total_property|
+    [1;34m37[0m:                             update_total_property.inject([33m:+[0m) }
+    [1;34m38[0m:   @update_total_liability_list = [@property.total_liability(@property,@household,@children),@adjust_expenditure_input_list].transpose.map{|update_total_liability|
+    [1;34m39[0m:                             update_total_liability.inject([33m:+[0m) }
+    [1;34m40[0m:   @update_net_property_list =  [@update_total_property_list,@update_total_liability_list].transpose.map{ |annual_net_property|
+    [1;34m41[0m:                           annual_net_property.inject([33m:-[0m) }
+ => [1;34m42[0m:   binding.pry
+    [1;34m43[0m: [32mend[0m
+

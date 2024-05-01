@@ -1,0 +1,284 @@
+// ※最終行にてbootstrapをimport済み
+
+// Bootstrapのクラスをカスタマイズして各種画面の共通クラスを作成
+// Bootstrap利用の方針として、デザイン修正が効率的に行えるように類似する画面ではできるだけ同じクラスを使う
+
+// ----(0)全画面で共通利用するクラスの作成-----
+
+// (0)-a.フォント（googleFontより）
+// @extend .kosugi-maru-regular!importantのように指定できないため、クラス名は使わずにフォントの設定を含むクラスに個別に設定
+// ここでは各クラスで再利用できるようメモとして記載
+// フォントデザインはアプリ全体で統一
+
+.kosugi-maru-regular {
+    font-family: "Kosugi Maru", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+// (0)-b.色（googleFontより）※各クラスで再利用できるようメモとして記載
+// アプリで使う色は以下の5色のみ（ColorSpaseを参考に選択）
+// フォントと同様、クラス名は使わずに背景色等の色設定を含むクラスに個別に設定
+// ここでは各クラスで再利用できるようメモとして記載
+.common-color {
+    color: #FFCC00;
+    color: #006E62;
+    color: #4D2E00;
+    color: #EEEEEE;
+    color: #FFFFFF;
+    color: #C0C0C0;
+}
+
+// (0)-c.body 
+body {
+    @extend .container-fluid;
+    margin-top: 4.5rem!important;
+    margin-bottom: 4.5rem!important;
+    background-color: #EEEEEE!important; 
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+}
+
+// (0)-d.ナビゲーションバー
+.customized-navigation{
+    @extend .navbar;
+    @extend .navbar-expand;
+    @extend .fixed-top;
+    @extend .mt-3;
+    @extend .mb-3;
+    background-color: #FFCC00!important;
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+}
+
+// (0)-e.ナビゲーションバーの各item
+.customizes-nav-item {
+    @extend .nav-item;
+    @extend .p-2;
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+}
+
+// (0)-f.テキストに#C0C0C0のマーカを引く
+.marker-gray {
+    background:linear-gradient(transparent 60%, #C0C0C0 0%);
+    display: inline-block;
+}
+
+// (0)-g.テキストに#FFCC00のマーカを引く
+.marker-yellow {
+    background:linear-gradient(transparent 90%, #FFCC00 0%);
+    display: inline-block;
+}
+
+
+// (0)-h. noticeとalertの表示
+.customized_notice_and_alert {
+    @extend .alert;
+    @extend .alert-light;
+    @extend .h6;
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+}
+
+// (0)-i. フッターの配置など
+.customised_footer {
+    @extend .fixed-bottom;
+    @extend .mt-3;
+    @extend .mb-3;
+    @extend .text-center;
+    background-color: #FFCC00!important;
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+}
+
+// (0)-j. フッターのテキスト
+.customised_footer p {
+    margin-top: 0.5rem!important;
+    margin-bottom: 0.5rem!important;
+}
+
+// (0)-k. トップ画面のコンテナ
+.main_container {
+    @extend .w-100;
+    @extend .row;
+    @extend .mx-0;
+    @extend .my-1;
+    @extend .mb-5;
+    padding-bottom: 30px!important;
+    padding-top: 30px!important;
+    background-color: #FFFFFF!important; 
+    color: #4D2E00!important;
+}
+
+.question_text {
+    color: #4D2E00!important;
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+    @extend .h6;
+    @extend .marker-gray;
+}
+
+
+// ----(1)各種登録・編集画面で共通利用するクラスの作成-----
+
+// (1)-a.フォームエリアのコンテナ（背景色、幅、配置など）
+.form_container {
+    @extend .container-fluid;
+    @extend .text-start;
+    @extend .w-50;
+    @extend .rounded;
+    @extend .p-4;
+    @extend .mb-5;
+    background-color: #FFFFFF!important; 
+}
+
+
+// (1)-b.フォームにあるアクションに対するクラス（フォームボタンを囲むdiv）
+.form_container div.actions {
+    @extend .text-center;
+}
+
+// (1)-c.フォームタイトル
+.form_title {
+    @extend .text-center;
+    @extend .py-3;
+}
+
+// (1)-d.フォームボタン
+.form_btn {
+    @extend .btn;
+    @extend .mb-2;
+    background-color: #006E62!important;
+    border-color: #006E62!important;
+    color: #EEEEEE!important;
+}
+
+
+// (1)-e.入力フィールドのdivブロック
+.form_field_div{
+    @extend .row;
+    @extend .mb-3;
+}
+
+// (1)-f.入力フィールドのdivブロックの子ブロック
+.form_field_div div{
+    @extend .col-6;
+}
+
+// (1)-g.入力フィールドのラベル
+.form_field_label{
+    @extend .form-label;
+    @extend .col-6;
+}
+
+// ----(2)家計状況一覧画面で利用するクラスの作成-----
+
+// (2)-a.家計状況一覧画面のタイトル
+.index_title {
+    @extend .py-3;
+}
+
+// (2)-b.家計状況のtableエリアのコンテナ
+// ※家計状況詳細画面のtableタグにも利用
+.index_container {
+    @extend .container-fluid;
+    @extend .w-75;
+    @extend .table-responsive;
+}
+
+// (2)-c.家計状況一覧画面のボタンの配置
+.index_container div.actions {
+// ※家計状況詳細画面のactionsクラスにも利用
+    @extend .text-end;
+    @extend .mb-3;
+}
+
+// (2)-d.家計状況一覧画面のtable
+.index_table {
+    @extend .table;
+    @extend .table-hover;
+}
+
+// (2)-e.家計状況一覧画面のtableのヘッダータグ
+.index_table thead {
+    border-bottom-color: #4D2E00!important;
+    border-width: 3px!important;
+}
+
+// (2)-f.家計状況一覧画面のtableのヘッダータグ内にあるヘッダー
+.index_table thead tr th {
+    color: #4D2E00!important;
+    @extend .text-nowrap;
+}
+
+// (2)-g.家計状況一覧画面のtableのデータ
+.index_table tbody tr td {
+    font-family: "Kosugi Maru", sans-serif!important;
+    font-weight: 400!important;
+    font-style: normal!important;
+    @extend .text-nowrap;
+}
+
+// ----(3)家計状況詳細画面で利用するクラスの作成-----
+// (3)-a.家計状況詳細画面のtable
+.household_show_table {
+    @extend .table;
+    @extend .table-bordered;    
+}
+
+// (3)-b.家計状況詳細画面のtableのヘッダー
+.household_show_table th {
+    background-color: #C0C0C0!important;
+    color: #4D2E00!important;
+    border-width: 3px!important;
+    @extend .text-center;
+    @extend .text-nowrap;
+}
+
+// ----(4)資産状況詳細画面で利用するクラスの作成-----
+// (4)-a.資産状況詳細画面のコンテナ
+.property_container {
+    @extend .container-fluid;
+    @extend .w-100;
+    background-color: #FFFFFF!important;
+    @extend .rounded;
+    @extend .p-4;
+    @extend .mb-5;
+    @extend .table-responsive;
+}
+
+// (4)-b.資産状況詳細画面のtable
+.property_table {
+    @extend .table;
+    @extend .table-hover;
+    @extend .w-100;
+}
+
+.property_table tr th {
+    background-color: #C0C0C0!important;
+    color: #4D2E00!important;
+    border-width: 3px!important;
+    @extend .text-center;
+    @extend .text-nowrap;
+}
+
+
+.adjust_input_form {
+    font-size: 13px!important;
+    @extend .form-control;
+}
+
+
+@import "~bootstrap/scss/bootstrap.scss";

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MoneyDesignApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  </head>
+
+  <header>
+    <nav class="customized-navigation">
+      <div class="container-fluid">
+      <a class="navbar-brand py-0" href="/">
+        <%= image_tag '今と未来のお金のデザイン-ナビロゴ.jpg' , class: "img-fluid", size: "70" %>
+      </a>
+        <div class="collapse navbar-collapse justify-content-end ">
+          <ul class="navbar-nav navbar-right">
+            <% if current_user.present? %>
+              <% if current_user.admin == true %>
+                <li class="customizes-nav-item">
+                  <%= link_to rails_admin_path do %>
+                    <i class="bi bi-database"></i>各種データ管理
+                  <% end %>
+                </li>
+              <% end %>
+              <li class="customizes-nav-item">
+                <%= link_to edit_user_registration_path do %>
+                  <i class="bi bi-person"></i>アカウント
+                <% end %>
+              </li>
+              <li class="customizes-nav-item">
+                <%= link_to households_path do %>
+                  <i class="bi bi-calculator"></i>家計状況
+                <% end %>
+              </li>
+              <% if current_user.households.present? %>
+                <li class="customizes-nav-item">
+                  <%= link_to property_path(Property.get_property_id(current_user)) do %>
+                    <i class="bi bi-graph-up"></i>資産状況
+                  <% end %>
+                </li>
+              <% else %>
+                <li class="customizes-nav-item">
+                  <%= link_to  new_property_path  do %>
+                    <i class="bi bi-graph-up"></i>資産状況
+                  <% end %>
+                </li>
+              <% end %>
+              <li class="customizes-nav-item">
+                <%= link_to users_sign_out_path do %>
+                  <i class="bi bi-box-arrow-left"></i>ログアウト
+                <% end %>
+              </li>  
+            <% else %>
+              <li class="customizes-nav-item">
+                <%= link_to user_session_path do %>
+                  <i class="bi bi-box-arrow-in-right"></i>ログイン
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <body>  
+    <div class="text-center">
+      <p hidden class="notice"><%= notice %></p>
+      <p hidden class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
+  </body>
+
+  <footer>
+      <div class="customised_footer"><p>© 2024 gaooo </p></div>
+  </footer>
+</html>

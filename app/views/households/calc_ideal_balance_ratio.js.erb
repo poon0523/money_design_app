@@ -1,0 +1,6 @@
+$("#ideal_expenditure").change(function(){
+    let ideal_expenditure = $(this).val();
+    let ideal_revenue = $("#ideal_revenue").val();
+    let balance_ratio = ideal_expenditure/ideal_revenue;
+    $("#ideal_balance_ratio").html(balance_ratio);
+})
