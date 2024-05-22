@@ -1,0 +1,22 @@
+ExpenseRevenueItem.seed(
+    { id: 1, name: "世帯収入", category_id: 1 },
+    { id: 2, name: "住居費", category_id: 2 },
+    { id: 3, name: "水道光熱費", category_id: 2 },
+    { id: 4, name: "社会保険料", category_id: 2 },
+    { id: 5, name: "生命保険料", category_id: 2 },
+    { id: 6, name: "通信費", category_id: 2 },
+    { id: 7, name: "教育費", category_id: 2 },
+    { id: 8, name: "サブスクリプション費", category_id: 2 },
+    { id: 9, name: "食費", category_id: 3 },
+    { id: 10, name: "日用品費", category_id: 3 },
+    { id: 11, name: "被服費", category_id: 3 },
+    { id: 12, name: "美容費", category_id: 3 },
+    { id: 13, name: "医療費", category_id: 3 },
+    { id: 14, name: "交通費", category_id: 3 },
+    { id: 15, name: "ガソリン費", category_id: 3 },
+    { id: 16, name: "積立投資額", category_id: 2 },
+    { id: 17, name: "定期預金額", category_id: 2 },
+    { id: 18, name: "ローン返済額（車）", category_id: 2 },
+    { id: 19, name: "ローン返済額（住宅）", category_id: 2 },
+    { id: 20, name: "ローン返済額（その他）", category_id: 2 }
+)

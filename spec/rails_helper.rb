@@ -5,6 +5,7 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'capybara/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -60,4 +61,18 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.include FactoryBot::Syntax::Methods
+
+  # config.before(:each, type: :system) do
+  #   Capybara.current_session.driver.browser.manage.window.resize_to(1200,1000)
+  # end
+  # max_window_width = 1024
+  # config.before(:all) do
+  #   screen_height = Capybara.page.execute_script("return screen.height;")
+  #   screen_width = Capybara.page.execute_script("return screen.width;")
+  #   screen_width = [screen_width, max_window_width].min
+  #   Capybara.page.driver.browser.manage.window.move_to(0, 0)
+  #   Capybara.page.driver.browser.manage.window.resize_to(screen_width, screen_height)
+  # end
+
 end

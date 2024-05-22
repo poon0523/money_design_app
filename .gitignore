@@ -34,3 +34,10 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# 開発過程で作成されてしまった不要なファイル
+prmspras
+pry20240413-28536-28sk4b.rb.save
+pry20240414-3478-uxqojl.rb.save
+q
+aq

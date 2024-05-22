@@ -1,0 +1,17 @@
+<div class="main_container">
+    <div class="align-items-center justify-contents-center">
+        <%= image_tag '404エラーイメージ.jpg' , class: "img-fluid" %>
+    </div>
+
+    <div class="align-items-center justify-contents-center">
+        <div class="container-fluid error_text">
+            <p>申し訳ありません。</p>
+            <p>ご指定のページが見つかりませんでした。</p>
+            <p>下のリンクよりアクセスできるトップ画面よりお探しください。</p>
+            <%= link_to top_main_path do %>
+                <i class="bi bi-house-door"></i></i>トップ画面へ
+            <% end %>
+        </div>
+    </div>
+</div>
+

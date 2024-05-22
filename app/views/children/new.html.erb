@@ -1,0 +1,18 @@
+<h1 class="form_title"><%= t('.title') %></h1>
+<% if notice.present? %>
+    <p class="customized_notice_and_alert"><%= notice %></p>
+<% elsif alert.present? %>
+    <p class="customized_notice_and_alert"><%= alert %></p>
+<% else %>
+<% end %>
+
+<div class="form_container">
+    <%= render '/children/form', children: @children %>
+</div>
+
+<div hidden>
+    <%= button_to '削除', children_destroy_for_fail_save_path(destroy_target: @destroy_target), id: 'destroy_for_fail_save' %>
+</div>
+
+<%= javascript_pack_tag 'children_submit', 'data-turbolinks-track': 'reload' %>
+

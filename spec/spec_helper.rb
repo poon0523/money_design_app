@@ -44,6 +44,15 @@ RSpec.configure do |config|
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+# seedデータの導入（テスト実行前に1度だけ実行。seed_fuメソッドを利用しているためseedファイルに記載した数以上にデータが導入されることはない）
+# ※（必要に応じて）都度データを削除したい場合は以下を処理に追加する
+    # DatabaseCleaner.strategy = :transaction
+    # DatabaseCleaner.clean_with(:truncation)
+  config.before(:suite) do
+    seed_path = "#{Rails.root}/spec/master_data"
+    SeedFu.seed(seed_path)
+  end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

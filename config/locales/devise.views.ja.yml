@@ -33,9 +33,6 @@ ja:
         marital_status: 配偶者有無
         spouse_age: 配偶者年齢
         children_number: 子ども人数
-        child1_age: 子ども1年齢
-        child2_age: 子ども2年齢
-        child3_age: 子ども3年齢
       household:
         title: タイトル
         housing_expense: 住居費
@@ -71,6 +68,11 @@ ja:
   household:
     show:
       household_table_header1_revenue_and_expense_item: 収支項目
+  children:
+    new:
+      title: 子どもの情報登録
+    edit:
+      title: 子どもの情報編集
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。

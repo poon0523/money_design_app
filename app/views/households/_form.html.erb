@@ -13,7 +13,8 @@
 
   <div class="mb-5">
     <p class="question_text">標準的な月の家計情報についてご回答ください</p><br>
-    <small>※標準的な：臨時的に発生する支出や収入が含まれない月（＝標準月）を意味します</small>
+    <small>※標準的な：臨時的に発生する支出や収入が含まれない月（＝標準月）を意味します</small><br>
+    <small>※教育費：お子様のご年齢と教育方針に応じて1人ずつ自動計算し、すべて合算した値が表示されます</small><br>
   </div>
   
 
@@ -28,24 +29,56 @@
     <% @household.expense_revenue_amounts.each do |amount| %>
       <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %>
         <div class="form_field_div">
-          <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
-          <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
-          <div>
-            <%= amount_form.text_field :amount, class: "form-control" %>
-          </div>
+
+          <% if ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name == "教育費" %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+            <div>
+              <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, readonly: true %>
+            </div>
+            <div>
+              <% current_user.children.each do |child| %>
+                <small><%= "#{child.birth_order}人目のお子様の教育費：#{Child.create_education_expense_list(child).first/12}円" %></small><br>
+              <% end %>
+            </div>
+
+          <% else %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+            <div>
+              <%= amount_form.text_field :amount, class: "form-control" %>
+            </div>
+          <% end %>
+
         </div>
       <% end %>
     <% end %>
 
   <% else %>
-    <% Household.order_expense_revenue_amounts(@household).each do |amount| %>
+    <% Household.edit_order_expense_revenue_amounts(@household).each do |amount| %>
       <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %><br>
         <div class="form_field_div">
-          <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
-          <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
-          <div>
-            <%= amount_form.text_field :amount, class: "form-control" %>
-          </div>
+
+          <% if ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name == "教育費" %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+            <div>
+              <%= amount_form.text_field :amount, class: "form-control", value: Child.create_total_education_expense_list(current_user.children).first/12, readonly: true  %>
+            </div>
+            <div>
+              <% current_user.children.each do |child| %>
+                <small><%= "#{child.birth_order}人目のお子様の教育費：#{Child.create_education_expense_list(child).first/12}円" %></small><br>
+              <% end %>
+            </div>
+
+          <% else %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
+            <div>
+              <%= amount_form.text_field :amount, class: "form-control" %>
+            </div>
+          <% end %>
+      
         </div>
       <% end %>
     <% end %>

@@ -1,4 +1,4 @@
- $(function(){
+$(function(){
     var submit_result_list = "";
 
     function confirm_save_success(){
@@ -13,7 +13,7 @@
         })
     };
 
-    confirm_save_success().then(function(){
+    confirm_save_success().then(function judege_save_success (){
         setTimeout(function(){
             var submit_result_list = $('input[class="check"]').map(function(){
                 return $(this).val();});
@@ -21,14 +21,14 @@
             var result_failed = (submit_result_list).get().indexOf("failed");
             if (result_unsubmit===-1&&result_failed===-1) {
                 console.log("すべての処理が完了");
-                $('#property_create_form').submit();
+                window.location.href = '/households'+"?child_create=" + "true";
             }
-            else
+            else 
                 if (result_unsubmit===-1&&result_failed > -1) {
-                    alert("正常に保存できませんでした")
+                    $('#destroy_for_fail_save').click();
                 }
             else {
-                console.log("処理中")
+                console.log("処理中") 
             };
         },1000);
     });

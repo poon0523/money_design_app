@@ -1,7 +1,7 @@
 import Rails from "@rails/ujs"
 $(function(){
     // 資産状況の登録画面の「登録」もしくは「更新」ボタンが押下されたときの処理で、以下(1)~(2)を順番に実行
-    $('#property_child_submit_btn').on("click",function(){
+    $('#children_submit_btn').on("click",function(){
 
         // (1)6種類の教育機関別に教育方針（公立／私立など）を入力したフォームを順番に送信
         function submit_education_expense_id_search_form(){
