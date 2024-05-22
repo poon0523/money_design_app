@@ -11,12 +11,15 @@ class Household < ApplicationRecord
 
     # クラスメソッドの定義
     # 家計状況-詳細画面：標準月の収支比率算出
-    scope :present_balance_ratio, -> (housing_expense,revenue){(housing_expense.to_f/revenue.to_f)*100}
+    scope :present_balance_ratio, -> (expense,revenue){(expense.to_f/revenue.to_f)*100}
 
-    # 家計状況-詳細画面：expense_revenue_amountsテーブル（中間テーブル）をCategory_idの昇順で並べる
+    # 家計状況-詳細画面：expense_revenue_amountsテーブル（中間テーブル）をCategory_idとnameの昇順で並べる
     scope :order_expense_revenue_amounts, -> (household){ household.expense_revenue_amounts.joins(:expense_revenue_item).order("expense_revenue_items.category_id ASC","expense_revenue_items.name ASC") }
 
-    # 家計状況-詳細画面：expense_revenue_amountsテーブル（中間テーブル）をCategory_idの昇順で並べる
+    # 家計状況-編集画面：expense_revenue_amountsテーブル（中間テーブル）をexpense_revenue_item_idの昇順で並べる
+    scope :edit_order_expense_revenue_amounts, -> (household){ household.expense_revenue_amounts.joins(:expense_revenue_item).order("expense_revenue_items.id ASC") }
+
+    # 家計状況-詳細画面：expense_revenue_itemsテーブル（中間テーブル）をCategory_idの昇順で並べかえて、expense_revenue_itemのidを取得する
     scope :get_expense_revenue_items_order_category, -> { ExpenseRevenueItem.order("expense_revenue_items.category_id ASC","expense_revenue_items.name ASC").select("id") }
 
     # インスタンスメソッドの定義
@@ -32,6 +35,4 @@ class Household < ApplicationRecord
     def joins_data_expense_revenue_amount_and_item(household)
         return household.expense_revenue_amounts.joins(:expense_revenue_item)
     end
-    
-
 end

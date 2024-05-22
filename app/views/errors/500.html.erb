@@ -1,0 +1,17 @@
+<div class="main_container">
+    <div class="align-items-center justify-contents-center">
+        <%= image_tag '500エラーイメージ.jpg' , class: "img-fluid" %>
+    </div>
+
+    <div class="align-items-center justify-contents-center">
+        <div class="container-fluid error_text">
+            <p>申し訳ありません。</p>
+            <p>サーバーとの通信時に問題が発生したため、ご指定のページを表示できませんでした。</p>
+            <p>時間をおいて再度お試しいただくか、開発者にご連絡ください。</p>
+            <%= link_to top_main_path do %>
+                <i class="bi bi-house-door"></i></i>トップ画面へ
+            <% end %>
+        </div>
+    </div>
+</div>
+

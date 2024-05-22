@@ -1,36 +1,37 @@
-------------------------------------------------------------------------------
-<h5>3.その他</h5>
-<h6 class="marker-h6">Q4.どのような教育方針に基づき教育費を算出するか？</h6><br>
-  <div>
-    <p>ご登録済みのお子様の人数：<%= current_user.children_number %>人<small>※ユーザー情報より自動出力</small></p>
-  </div>
+<h5>お子様についての情報をご入力ください</h5><br>
+<div>
+<p>ご登録済みのお子様の人数：<%= current_user.children_number %>人<small>※ユーザー情報より自動出力</small></p>
+</div>
 
 <% children.each_with_index do |child,index| %>
     <%= form_with model: child, class: "child_create_form", local: false do |form|  %>
+    
+        <br>
         <h6><%= "<#{child.birth_order}人目のお子様の教育方針>" %></h6>
         <input hidden id = <%= "#{child.birth_order}th_child_form_submit_check" %> class = "check" value = "unsubmit">
+
         <div hidden>
             <%= form.label :birth_order, class: "form_field_label"  %>
-            <%= form.text_field :birth_order, value: child.birth_order, class: "form-control"  %>
+            <%= form.text_field :birth_order, id: "#{child.birth_order}_birth_order",value: child.birth_order, class: "form-control"  %>
         </div>
 
         <div>
             <%= form.label "生年月日(未来日付も入力可)", class: "form_field_label" %>
-            <%= form.text_field :birth_year_month_day, class: "form-control" %>
+            <%= form.text_field :birth_year_month_day, id:"birth_year_month_day_#{child.birth_order}", class: "form-control" %>
         </div>
 
         <br>
 
         <div>
             <%= form.label :nursery_school_start_age, class: "form_field_label"  %>
-            <%= form.text_field :nursery_school_start_age, class: "form-control" %>
+            <%= form.text_field :nursery_school_start_age, id:"nursery_school_start_age_#{child.birth_order}", class: "form-control" %>
         </div>
 
         <br>
 
         <div>
             <%= form.label :kindergarten_start_age, class: "form_field_label"   %>
-            <%= form.text_field :kindergarten_start_age, class: "form-control"  %>
+            <%= form.text_field :kindergarten_start_age, id: "kindergarten_start_age_#{child.birth_order}", class: "form-control"  %>
         </div>
 
         <% child.child_educations.each_with_index do |education,index| %>
@@ -65,7 +66,7 @@
             <% if child.child_educations.exists? %>
                 <%= nursery.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(1, child).management_organization %>
             <% else %>
-                <%= nursery.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= nursery.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_nursary_#{child.birth_order}" %>
             <% end %>
         </div>
         
@@ -107,7 +108,7 @@
             <% if child.child_educations.exists? %>
                 <%= kindergarten.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(2, child).management_organization %>
             <% else %>
-                <%= kindergarten.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= kindergarten.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_kindergarten_#{child.birth_order}" %>
             <% end %>
         </div>
         
@@ -147,7 +148,7 @@
             <% if child.child_educations.exists? %>
                 <%= primary_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(3, child).management_organization %>
             <% else %>
-                <%= primary_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= primary_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_primary_#{child.birth_order}" %>
             <% end %>
         </div>
         
@@ -188,7 +189,7 @@
             <% if child.child_educations.exists? %>
                 <%= junior_high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(4, child).management_organization %>
             <% else %>
-                <%= junior_high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= junior_high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_junior_#{child.birth_order}" %>
             <% end %>
         </div>
         
@@ -229,7 +230,7 @@
             <% if child.child_educations.exists? %>
                 <%= high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(5, child).management_organization %>
             <% else %>
-                <%= high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= high_school.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_high_#{child.birth_order}" %>
             <% end %>
         </div>
         
@@ -266,7 +267,7 @@
             <% if child.child_educations.exists? %>
                 <%= university.collection_select :education_institution_type, EducationExpense.select("education_institution_type").distinct.where(education_institution_type: 6..8), :education_institution_type, :education_institution_type, selected: child.get_child_education_data(6..8,child).education_institution_type %>
             <% else %>
-                <%= university.collection_select :education_institution_type, EducationExpense.select("education_institution_type").distinct.where(education_institution_type: 6..8), :education_institution_type, :education_institution_type %>
+                <%= university.collection_select :education_institution_type, EducationExpense.select("education_institution_type").distinct.where(education_institution_type: 6..8), :education_institution_type, :education_institution_type, {}, id: "select_university_type_#{child.birth_order}" %>
             <% end %>
         </div>
 
@@ -277,7 +278,7 @@
             <% if child.child_educations.exists? %>
                 <%= university.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, selected: child.get_child_education_data(6..8, child).management_organization %>
             <% else %>
-                <%= university.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization %>
+                <%= university.collection_select :management_organization, EducationExpense.select("management_organization").distinct, :management_organization, :management_organization, {}, id: "select_university_manage_#{child.birth_order}" %>
             <% end %>
         </div>
 
@@ -288,7 +289,7 @@
             <% if child.child_educations.exists? %>
                 <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major, selected: child.get_child_education_data(6..8, child).university_major %>
             <% else %>
-                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major %>
+                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major, {}, id: "select_university_major_#{child.birth_order}" %>
             <% end %>
         </div>
 
@@ -299,7 +300,7 @@
             <% if child.child_educations.exists? %>
                 <%= university.collection_select :boarding_house, EducationExpense.select("boarding_house").distinct, :boarding_house, :boarding_house, selected: child.get_child_education_data(6..8, child).boarding_house %>
             <% else %>
-                <%= university.collection_select :boarding_house, EducationExpense.select("boarding_house").distinct, :boarding_house, :boarding_house %>
+                <%= university.collection_select :boarding_house, EducationExpense.select("boarding_house").distinct, :boarding_house, :boarding_house, {}, id: "select_university_boarding_#{child.birth_order}" %>
             <% end %>
         </div>
 
@@ -313,6 +314,6 @@
 <br>
 
 <div class="actions">
-    <button type="submit", id="property_child_submit_btn", class="form_btn"><%= t('common.update') %></button>
+    <button type="submit", id="children_submit_btn", class="form_btn"><%= t('common.update') %></button>
 </div>
 

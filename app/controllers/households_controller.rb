@@ -1,16 +1,25 @@
 class HouseholdsController < ApplicationController
   # ログイン成功の場合のみhouseholds_controllerの全アクション実行可能とする
   before_action :authenticate_user!
+  before_action :correct_user, only: %i[ show edit ]
   before_action :set_household, only: %i[ show edit update destroy ]
 
 
   def index
     # ログインユーザーが持つすべての家計情報をインスタンス変数に格納
     @households = current_user.households.all
+
+    if params[:child_create] == "true" 
+      flash[:notice] = "アカウントと子どもの情報を登録しました"
+      render :index
+    elsif params[:child_update] == "true"
+      flash[:notice] = "アカウントと子どもの情報を更新しました"
+    else
+    end
+
   end
 
   def show
-    binding.pry
 
     # 詳細画面で表示する必要がある情報を以下(1)~(5)の通りインスタンス変数に格納
     # (1)収支項目のカテゴリ順に並べた（家計と収支項目の）中間テーブルを家計の詳細情報としてインスタンス変数に格納
@@ -34,8 +43,8 @@ class HouseholdsController < ApplicationController
     end
 
     # (5)詳細画面で表示する家計情報の調整版をtitleで検索しインスタンス変数に格納（詳細画面にて調整版作成有無により処理を分岐させるため）
-    if current_user.households.find_by(title: "(調整版）#{@household.title}").present?
-      @ideal_created_id = current_user.households.find_by(title: "(調整版）#{@household.title}").id
+    if current_user.households.find_by(title: "（調整版）#{@household.title}").present?
+      @ideal_created_id = current_user.households.find_by(title: "（調整版）#{@household.title}").id
     else 
       @ideal_created_id = false
     end
@@ -46,8 +55,6 @@ class HouseholdsController < ApplicationController
 
     # ログインユーザーの現在の家計情報の登録のために新規のhouseholdインスタンスを生成し、インスタンス変数に格納
     @household = current_user.households.new
-
-    binding.pry
 
     # 中間テーブル（expense_revenue_amounts）を経由し、現在の家計の収支項目を登録できるように全収支項目分のインスタンスを作成
     # 全収支項目のidを取得するため、ExpenseRevunueItemテーブルにある全idを配列として取得
@@ -60,11 +67,9 @@ class HouseholdsController < ApplicationController
   end
 
   def edit
-    binding.pry
   end
 
   def create
-    binding.pry
     @household = current_user.households.new(household_params)
     respond_to do |format|
       if @household.save
@@ -78,7 +83,6 @@ class HouseholdsController < ApplicationController
   end
 
   def update
-    binding.pry
     respond_to do |format|
       if @household.update(household_params)
         format.html { redirect_to household_url(@household), notice: t('notice.successful_update') }
@@ -91,7 +95,6 @@ class HouseholdsController < ApplicationController
   end
 
   def destroy
-    binding.pry
     @household.destroy
 
     respond_to do |format|
@@ -109,6 +112,11 @@ class HouseholdsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def household_params
       params.require(:household).permit(:id, :title, expense_revenue_amounts_attributes: [:id,:expense_revenue_item_id,:amount])
+    end
+
+    def correct_user
+      @household_user = Household.find(params[:id]).user
+      redirect_to households_path, notice: "家計状況を登録したユーザーと異なるため参照できません" unless current_user?(@household_user,current_user)
     end
 
 end

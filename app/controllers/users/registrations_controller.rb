@@ -21,7 +21,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    binding.pry
     super
   end
 
@@ -59,10 +58,36 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.update_without_current_password(params)
   end
 
-  # The path used after sign up.
+   # deviseのビルドインメソッドを通して、アカウント作成後のリダイレクト先を指定
   def after_sign_up_path_for(resource)
-    super(resource)
+    # 子どもがいる場合は「子ども情報登録」に遷移する
+    if current_user.children_number > 0
+      flash[:notice] = 'アカウントを作成しました。続けて、お子様の情報をご登録ください'
+      new_child_path
+    else
+      flash[:notice] = 'アカウントを作成しました'
+      households_path
+    end
   end
+
+   # deviseのビルドインメソッドを通して、アカウント編集後のリダイレクト先を指定
+  def after_update_path_for(resource)
+    # 子どもがいる場合は「子ども情報登録」に遷移する
+    if current_user.children_number > 0  && current_user.children.all.present?
+      edit_child_path(current_user.children.first)
+    elsif current_user.children_number > 0  && current_user.children.all.empty?
+      flash[:notice] = 'アカウントを更新しました。お子様の情報が未登録のためご登録ください'
+      new_child_path
+    else
+      flash[:notice] = 'アカウントを更新しました'
+      households_path
+    end
+  end    
+
+  # The path used after sign up.
+  # def after_sign_up_path_for(resource)
+  #   super(resource)
+  # end
 
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)

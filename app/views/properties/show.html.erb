@@ -142,18 +142,6 @@
                     <td><%= present_other_loan_balance.round %></td>
                 <% end %>        
             </tr>
-            
-            <% if current_user.children_number > 0 %>
-                <% @children.each do |child| %>
-                    <tr>
-                        <th data-model = "major_classification_for_best_case" >教育費</th>
-                        <th ><%= "#{child.birth_order}人目" %></th>
-                        <% Property.data_extraction_every_5years(@property.create_education_expense_list(child)).each do |education_expense| %>      
-                            <td><%= education_expense.round %></td>
-                        <% end %>
-                    </tr>
-                <% end %>
-            <% end %>
 
             <tr>
                 <th colspan=2>臨時収入</th>
@@ -250,17 +238,6 @@
                     <td><%= present_other_loan_balance.round %></td>
                 <% end %>        
             </tr>
-            <% if current_user.children_number > 0 %>
-                <% @children.each do |child| %>
-                    <tr>
-                        <th data-model = "major_classification_for_worst_case">教育費</th>
-                        <th><%= "#{child.birth_order}人目" %></th>
-                        <% Property.data_extraction_every_5years(@property.create_education_expense_list(child)).each do |education_expense| %>      
-                            <td><%= education_expense.round %></td>
-                        <% end %>
-                    </tr>
-                <% end %>
-            <% end %>
 
             <tr>
                 <th  colspan=2>臨時収入</th>

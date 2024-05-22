@@ -27,6 +27,21 @@ ja:
         birth_year_month_day: 生年月日
         nursery_school_start_age: 保育園開始年齢
         kindergarten_start_age: 幼稚園開始年齢
+      property:
+        best_annual_interest_rate: 好調の場合の投資年率
+        worst_annual_interest_rate: 不調の場合の投資年率
+        car_properties_present_value: 車の現在価格
+        housing_properties_present_value: 住宅の現在価格
+        other_properties_present_value: その他の現在価格
+        car_present_loan_balance: 車のローン残高
+        housing_present_loan_balance: 住宅のローン残高
+        other_present_loan_balance: その他のローン残高
+        car_annual_residual_value_rate: 車の年間残価率
+        housing_annual_residual_value_rate: 住宅の年間残価率
+        other_annual_residual_value_rate: その他の年間残価率
+        car_loan_interest_rate: 車の年間金利
+        housing_loan_interest_rate: 住宅の年間金利
+        other_loan_interest_rate: その他の年間金利
   # Active Recordモデルのバリデーションエラーメッセージの翻訳を定義
   errors:
     # バリデーションエラーのエラー文の翻訳を定義（バリデーションエラーメッセージの名前はすでに決まっている）
@@ -88,7 +103,7 @@ ja:
       balance_ratio: 収支比率
   properties:
     new:
-      title: 資産状況編集
+      title: 資産状況登録
     show:
       title: 資産状況詳細
       edit_link: 資産情報を編集する

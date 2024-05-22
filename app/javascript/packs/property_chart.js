@@ -5,21 +5,21 @@ $(function(){
   // 資産状況の詳細画面-（ベストケース用）テーブルのレイアウトとしてカテゴリごとにセルを自動結合する処理
   const using_property_count_for_best = $('th[data-model = "major_classification_for_best_case"]').filter(function() { return $(this).text() === '使用資産'; }).length;
   const loan_count_for_best = $('th[data-model = "major_classification_for_best_case"]').filter(function() { return $(this).text() === 'ローン'; }).length;
-  const other_count_for_best = $('th[data-model = "major_classification_for_best_case"]').filter(function() { return $(this).text() === '教育費'; }).length;
+  // const other_count_for_best = $('th[data-model = "major_classification_for_best_case"]').filter(function() { return $(this).text() === '教育費'; }).length;
       
   $('th[data-model = "major_classification_for_best_case"]').get(0).rowSpan = using_property_count_for_best;
   $('th[data-model = "major_classification_for_best_case"]').get(using_property_count_for_best).rowSpan = loan_count_for_best;
-  $('th[data-model = "major_classification_for_best_case"]').get(using_property_count_for_best+loan_count_for_best).rowSpan = other_count_for_best;
+  // $('th[data-model = "major_classification_for_best_case"]').get(using_property_count_for_best+loan_count_for_best).rowSpan = other_count_for_best;
   $('th[data-model = "major_classification_for_best_case"]:not([rowspan])').remove();
 
     // 資産状況の詳細画面-（ワーストケース用）テーブルのレイアウトとしてカテゴリごとにセルを自動結合する処理
     const using_property_count_for_worst = $('th[data-model = "major_classification_for_worst_case"]').filter(function() { return $(this).text() === '使用資産'; }).length;
     const loan_count_for_worst = $('th[data-model = "major_classification_for_worst_case"]').filter(function() { return $(this).text() === 'ローン'; }).length;
-    const other_count_for_worst = $('th[data-model = "major_classification_for_worst_case"]').filter(function() { return $(this).text() === '教育費'; }).length;
+    // const other_count_for_worst = $('th[data-model = "major_classification_for_worst_case"]').filter(function() { return $(this).text() === '教育費'; }).length;
         
     $('th[data-model = "major_classification_for_worst_case"]').get(0).rowSpan = using_property_count_for_worst;
     $('th[data-model = "major_classification_for_worst_case"]').get(using_property_count_for_worst).rowSpan = loan_count_for_worst;
-    $('th[data-model = "major_classification_for_worst_case"]').get(using_property_count_for_worst+loan_count_for_worst).rowSpan = other_count_for_worst;
+    // $('th[data-model = "major_classification_for_worst_case"]').get(using_property_count_for_worst+loan_count_for_worst).rowSpan = other_count_for_worst;
     $('th[data-model = "major_classification_for_worst_case"]:not([rowspan])').remove();
   
 

@@ -47,12 +47,6 @@
                     <i class="bi bi-graph-up"></i>資産状況
                   <% end %>
                 </li>
-              <% else %>
-                <li class="customizes-nav-item">
-                  <%= link_to  new_property_path  do %>
-                    <i class="bi bi-graph-up"></i>資産状況
-                  <% end %>
-                </li>
               <% end %>
               <li class="customizes-nav-item">
                 <%= link_to users_sign_out_path do %>
@@ -63,6 +57,16 @@
               <li class="customizes-nav-item">
                 <%= link_to user_session_path do %>
                   <i class="bi bi-box-arrow-in-right"></i>ログイン
+                <% end %>
+              </li>
+              <li class="customizes-nav-item">
+                <%= link_to users_general_guest_sign_in_path, method: :post do %>
+                  <i class="bi bi-people"></i>ゲストログイン(一般)
+                <% end %>
+              </li>
+              <li class="customizes-nav-item">
+                <%= link_to users_admin_guest_sign_in_path, method: :post do %>
+                  <i class="bi bi-person-check"></i>ゲストログイン(管理者)
                 <% end %>
               </li>
             <% end %>

@@ -33,6 +33,35 @@ class User < ApplicationRecord
     result
   end
 
+  # 一般のゲストユーザーログイン用メソッド
+  def self.general_guest
+    find_or_create_by!(email: 'general_guest@example.com') do |user|
+      user.name = "general_guest_user"
+      user.admin = false
+      user.age = 30
+      user.marital_status = true
+      user.spouse_age = 33
+      user.children_number = 0
+      user.password = "general_guest_user"
+      user.password_confirmation = "general_guest_user"
+    end
+  end
+
+    # 管理者のゲストユーザーログイン用メソッド
+    def self.admin_guest
+      find_or_create_by!(email: 'admin_guest@example.com') do |user|
+        user.name = "admin_guest_user"
+        user.admin = true
+        user.age = 30
+        user.marital_status = true
+        user.spouse_age = 33
+        user.children_number = 0
+        user.password = "admin_guest_user"
+        user.password_confirmation = "admin_guest_user"
+      end
+    end
+  
+
   # （deviseに含まれない、独自で設定したデータに対する）バリデーションの設定
   validates :marital_status, inclusion:{in:[true,false]}
   validates :spouse_age, presence: true, if: :have_spose?

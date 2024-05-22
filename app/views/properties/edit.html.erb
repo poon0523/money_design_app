@@ -10,14 +10,7 @@
 
     <%= render 'form', property: @property %>
 
-    <% if current_user.children_number > 0 %>
-        <%= render '/children/form', children: current_user.children %>
-    <% end %>
-
     <%= link_to t('common.back'), property_path(@property) %>
 
 </div>
-
-
-<%= javascript_pack_tag 'property_child_submit', 'data-turbolinks-track': 'reload' %>
 

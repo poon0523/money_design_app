@@ -61,14 +61,14 @@
 
         <div class="actions">
             <% if @household.title.exclude?("調整版") %>
-             <%= link_to "(調整版）#{@household.title}", household_path(@ideal_created_id) %>
+             <%= link_to "（調整版）#{@household.title}", household_path(@ideal_created_id) %>
             <% else %>
             <% end %>
         </div>
 
     <% else %>
 
-        <%= form_with(model: @ideal_households) do |form| %>
+        <%= form_with(model: @ideal_households) do |form| %>        
             <div class="actions">
                 <%= link_to edit_household_path(@household) do %>
                     <i class="bi bi-pencil"></i><%= t('common.edit') %>
@@ -94,7 +94,7 @@
                 <tbody>
 
                 
-                <% @household_detail.each do |household_ideal| %>
+                <% @household_detail.each_with_index do |household_ideal, index| %>
                     <tr>
                         <% if household_ideal.expense_revenue_item.category_id == 1 %>
                             <th data-model = "major_classification">収入</th>
@@ -102,7 +102,7 @@
                             <td><%= household_ideal.amount %></td>
                             <td>-</td>
                             <td>-</td>
-                            <td><input id = "revenue", data-model = "input", value = <%= household_ideal.amount %> class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><input id = "revenue" data-model = "input" value = <%= household_ideal.amount %> class="input-group form-control" style="font-size: 13px;"></input></td>
                             <td><p data-model = "balance_ratio"></td>
 
                         <% elsif household_ideal.expense_revenue_item.category_id == 2  %>
@@ -111,7 +111,7 @@
                             <td><%= household_ideal.amount %></td>
                             <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
                             <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
-                            <td><input data-model = "input", value = 0 class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><input id = <%= "household_ideal_#{household_ideal.expense_revenue_item.id}" %> data-model = "input" value = 0 class="input-group form-control" style="font-size: 13px;"></input></td>
                             <td><p data-model = "balance_ratio"></td>
 
                         <% elsif household_ideal.expense_revenue_item.category_id == 3 %>
@@ -120,7 +120,7 @@
                             <td><%= household_ideal.amount %></td>
                             <td data-model = "present_balance_ratio"><%= number_to_percentage((Household.present_balance_ratio(household_ideal.amount,@revenue)), precision: 0) %></td>
                             <td data-model = "standard_balance_ratio"><%= number_to_percentage((@match_household_standard.find_by(expense_revenue_item_id: household_ideal.expense_revenue_item_id).expense_ratio_to_revenue*100), precision: 0) %></td>
-                            <td><input data-model = "input", value = 0 class="input-group form-control", style="font-size: 13px;"></input></td>
+                            <td><input id = <%= "household_ideal_#{household_ideal.expense_revenue_item.id}" %> data-model = "input" value = 0 class="input-group form-control" style="font-size: 13px;"></input></td>
                             <td><p data-model = "balance_ratio"></td>
                         <% end %>
                     </tr>
@@ -130,7 +130,7 @@
             </table>
 
             <div hidden>
-                <%= form.text_field :title, value: "(調整版）#{@household.title}" %>
+                <%= form.text_field :title, value: "（調整版）#{@household.title}" %>
                 <% @ideal_households.expense_revenue_amounts.each do |amount| %>
                     <%= form.fields_for :expense_revenue_amounts, amount do |amount_form| %>
                         <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>

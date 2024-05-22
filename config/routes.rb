@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
+    post '/users/general_guest_sign_in', to: 'users/sessions#general_guest_sign_in'
+    post '/users/admin_guest_sign_in', to: 'users/sessions#admin_guest_sign_in'
   end
   get 'top/main', to:'top#main'
   resources :households
@@ -20,8 +22,12 @@ Rails.application.routes.draw do
   get'properties/update_net_property_to_include_adjust_input', to:'properties#update_net_property_to_include_adjust_input'
   resources :properties
 
-  resources :children, only:[:create,:update]
+  resources :children, only:[:create,:update, :new, :edit, :destroy ]
   get'children/search_education_expenses', to:'children#search_education_expenses'
-  
+  post 'children/destroy_for_fail_save', to:'children#destroy_for_fail_save'
+
+  # 上のどのルーティングにも当てはまらない場合のルーティング
+  get '*not_found', to: 'application#routing_error'
+  post '*not_found', to: 'application#routing_error'
 
 end

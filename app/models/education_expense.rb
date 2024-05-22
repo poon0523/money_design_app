@@ -7,6 +7,7 @@ class EducationExpense < ApplicationRecord
     validates :management_organization,    presence: true
     validates :university_major,           presence: true
     validates :annual_expense,             presence: true
+    validates :boarding_house,             presence: true
 
     # enumの設定
     enum management_organization: { "公立": 1, "私立": 2 }
@@ -18,11 +19,20 @@ class EducationExpense < ApplicationRecord
     # Child_contorollerのsearch_education_expensesでのみ利用するメソッド
     # EducationExpenseマスタから引数に設定した条件と合致するidを抽出
     scope :refer_education_expenses_master, ->(education_institution_type,management_organization,university_major,boarding_house){
-        EducationExpense.find_by(
+        if EducationExpense.find_by(
+                education_institution_type: education_institution_type,
+                management_organization:    management_organization,
+                university_major:           university_major,
+                boarding_house:             boarding_house
+            ).present?
+            EducationExpense.find_by(
                 education_institution_type: education_institution_type,
                 management_organization:    management_organization,
                 university_major:           university_major,
                 boarding_house:             boarding_house
             ).id
+        else
+            return ""
+        end
     }
 end
