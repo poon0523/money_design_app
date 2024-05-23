@@ -5,7 +5,16 @@ class Users::SessionsController < Devise::SessionsController
   def general_guest_sign_in
     user = User.general_guest
     if Household.where(user_id: user.id).empty?
-      user.households.create(title: "general_guest_sample_household")
+      @household = user.households.create(title: "general_guest_sample_household")
+      # 中間テーブル（expense_revenue_amounts）を経由し、現在の家計の収支項目を登録できるように全収支項目分のインスタンスを作成
+      # 全収支項目のidを取得するため、ExpenseRevunueItemテーブルにある全idを配列として取得
+      expense_revenue_item_id_list = ExpenseRevenueItem.select("id")
+      # idリストにあるidをインプットに全収支項目分のインスタンスを作成
+      expense_revenue_item_id_list.each do |expense_revenue_item|
+        @household.expense_revenue_amounts.create(expense_revenue_item_id: expense_revenue_item.id, amount: 0)
+      end
+      # 家計状況一覧画面に「詳細」リンクを表示させないためのフラグとしてインスタンス変数を作成
+      @not_display_show = true
     end
     sign_in user
     flash[:notice] = "ゲストユーザー（一般）としてログインしました。"
@@ -15,7 +24,16 @@ class Users::SessionsController < Devise::SessionsController
   def admin_guest_sign_in
     user = User.admin_guest
     if Household.where(user_id: user.id).empty?
-      user.households.create(title: "admin_guest_sample_household")
+      @household = user.households.create(title: "admin_guest_sample_household")
+      # 中間テーブル（expense_revenue_amounts）を経由し、現在の家計の収支項目を登録できるように全収支項目分のインスタンスを作成
+      # 全収支項目のidを取得するため、ExpenseRevunueItemテーブルにある全idを配列として取得
+      expense_revenue_item_id_list = ExpenseRevenueItem.select("id")
+      # idリストにあるidをインプットに全収支項目分のインスタンスを作成
+      expense_revenue_item_id_list.each do |expense_revenue_item|
+        @household.expense_revenue_amounts.create(expense_revenue_item_id: expense_revenue_item.id, amount: 0)
+      end
+      # 家計状況一覧画面に「詳細」リンクを表示させないためのフラグとしてインスタンス変数を作成
+      @not_display_show = true
     end
     sign_in user
     flash[:notice] = "ゲストユーザー（管理者）としてログインしました。"
