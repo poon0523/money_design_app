@@ -13,8 +13,6 @@ class Users::SessionsController < Devise::SessionsController
       expense_revenue_item_id_list.each do |expense_revenue_item|
         @household.expense_revenue_amounts.create(expense_revenue_item_id: expense_revenue_item.id, amount: 0)
       end
-      # 家計状況一覧画面に「詳細」リンクを表示させないためのフラグとしてインスタンス変数を作成
-      @not_display_show = true
     end
     sign_in user
     flash[:notice] = "ゲストユーザー（一般）としてログインしました。"
@@ -32,8 +30,6 @@ class Users::SessionsController < Devise::SessionsController
       expense_revenue_item_id_list.each do |expense_revenue_item|
         @household.expense_revenue_amounts.create(expense_revenue_item_id: expense_revenue_item.id, amount: 0)
       end
-      # 家計状況一覧画面に「詳細」リンクを表示させないためのフラグとしてインスタンス変数を作成
-      @not_display_show = true
     end
     sign_in user
     flash[:notice] = "ゲストユーザー（管理者）としてログインしました。"
