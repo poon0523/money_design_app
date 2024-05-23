@@ -12,7 +12,6 @@ import { Chart } from "chart.js"
 import "bootstrap";
 import "../stylesheets/application.scss";
 
-
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
