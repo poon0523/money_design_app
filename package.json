@@ -26,7 +26,7 @@
     "webpack-dev-server": "^3"
   },
   "resolutions": {
-    "rails_admin/@fortawesome/fontawesome-free": "^5.15.0",
+    "rails_admin/@fortawesome/fontawesome-free": "^6.5.2",
     "@fortawesome/fontawesome-free": "^5.15.0"
   }
 }
