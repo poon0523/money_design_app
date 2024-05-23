@@ -28,12 +28,8 @@
           <td><%= household.title %></td>
           <td><%= household.created_at %></td>
           <td>
-            <% if @not_display_show = true %>
-              <i class="bi bi-file-text"></i>詳細
-            <% else %>
-              <%= link_to household do %>
-                <i class="bi bi-file-text"></i><%= t('common.show') %>
-              <% end %>
+            <%= link_to household do %>
+              <i class="bi bi-file-text"></i><%= t('common.show') %>
             <% end %>
           </td>
           <td>
