@@ -7,7 +7,7 @@
     <%= form_with model: child, class: "child_create_form", local: false do |form|  %>
     
         <br>
-        <h6><%= "<#{child.birth_order}人目のお子様の教育方針>" %></h6>
+        <h6><%= "<#{child.birth_order}人目のお子様の基本情報と教育方針>" %></h6>
         <input hidden id = <%= "#{child.birth_order}th_child_form_submit_check" %> class = "check" value = "unsubmit">
 
         <div hidden>
