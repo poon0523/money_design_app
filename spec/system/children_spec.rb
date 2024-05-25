@@ -21,6 +21,9 @@ RSpec.describe "Children", type: :system do
 
       # ログアウト状態にする
       click_link('ログアウト')
+
+      sleep 7
+
       expect(page).to have_content("ログアウトしました。")
       # 子どもの情報登録画面を表示
       visit new_child_path
@@ -35,7 +38,6 @@ RSpec.describe "Children", type: :system do
       fill_in 'user_email', with: "test_user2@abc.com"
       fill_in 'user_password', with: "test_user2"
       fill_in 'user_password_confirmation', with: "test_user2"
-      check 'user_admin'
       fill_in 'user_age', with: 25
       select 'あり', from: 'user_marital_status'
       fill_in 'user_spouse_age', with: 26
@@ -85,7 +87,6 @@ RSpec.describe "Children", type: :system do
             fill_in 'user_email', with: "test_user2@abc.com"
             fill_in 'user_password', with: "test_user2"
             fill_in 'user_password_confirmation', with: "test_user2"
-            check 'user_admin'
             fill_in 'user_age', with: 25
             select 'あり', from: 'user_marital_status'
             fill_in 'user_spouse_age', with: 26

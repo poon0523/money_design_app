@@ -3,6 +3,8 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -15,11 +17,16 @@
     "webpack-cli": "^3.3.12"
   },
   "version": "0.1.0",
+  "engines": {
+    "node": "14.21.3",
+    "yarn": "1.22.19",
+    "npm": "6.14.18"
+  },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.18.6",
     "webpack-dev-server": "^3"
   },
   "resolutions": {
-    "rails_admin/@fortawesome/fontawesome-free": "^5.15.0"
+    "rails_admin/@fortawesome/fontawesome-free": "^6.5.2",
+    "@fortawesome/fontawesome-free": "^5.15.0"
   }
 }

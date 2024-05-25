@@ -1,5 +1,3 @@
-// ※最終行にてbootstrapをimport済み
-
 // Bootstrapのクラスをカスタマイズして各種画面の共通クラスを作成
 // Bootstrap利用の方針として、デザイン修正が効率的に行えるように類似する画面ではできるだけ同じクラスを使う
 
@@ -290,5 +288,5 @@ body {
     @extend .form-control;
 }
 
-
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~bootstrap/scss/bootstrap.scss";

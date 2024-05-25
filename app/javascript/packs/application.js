@@ -10,8 +10,8 @@ import "channels"
 import "jquery"
 import { Chart } from "chart.js"
 import "bootstrap";
+import "@fortawesome/fontawesome-free/js/all";
 import "../stylesheets/application.scss";
-
 
 Rails.start()
 Turbolinks.start()

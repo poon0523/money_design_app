@@ -413,6 +413,9 @@ RSpec.describe "Households", type: :system do
 
     it "（CRUD機能、画面遷移テスト）「編集」リンクを押下すると詳細画面に表示されているデータの編集画面に遷移すること" do
       click_link '編集'
+
+      sleep 5
+
       # 「編集」リンク押下後の画面タイトルより画面遷移の確認
       expect(page).to have_content('家計状況編集')
       # 遷移先の編集画面の「タイトル」の入力値が遷移元の詳細画面のタイトルと一致するかにより、編集画面に正しくデータが表示されていることを確認
@@ -422,6 +425,9 @@ RSpec.describe "Households", type: :system do
 
     it "（CRUD機能、画面遷移テスト）「戻る」リンクを押下すると家計状況一覧画面に遷移すること" do
       click_link '戻る'
+
+      sleep 5
+
       expect(page).to have_content("#{user.name}さんの家計状況一覧")
     end    
 

@@ -20,7 +20,6 @@ class HouseholdsController < ApplicationController
   end
 
   def show
-
     # 詳細画面で表示する必要がある情報を以下(1)~(5)の通りインスタンス変数に格納
     # (1)収支項目のカテゴリ順に並べた（家計と収支項目の）中間テーブルを家計の詳細情報としてインスタンス変数に格納
     @household_detail = Household.order_expense_revenue_amounts(@household)
