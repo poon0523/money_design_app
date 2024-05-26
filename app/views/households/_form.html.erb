@@ -43,7 +43,7 @@
 
             <% else %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, readonly: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, disabled: true %>
               </div>
               <div>
                 <% current_user.children.each do |child| %>
@@ -82,7 +82,7 @@
 
             <% else %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, readonly: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, disabled: true %>
               </div>
               <div>
                 <% current_user.children.each do |child| %>
