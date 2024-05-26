@@ -85,8 +85,12 @@ class PropertiesController < ApplicationController
     # property、household、childrenのデータは「update_net_property_to_include_adjust_input.js.erb」で必要であるためインスタンス変数に格納
     @property = Property.find(params[:property])
     @household = current_user.households.find(params[:household])
-    @children = current_user.children.find(params[:child])
-    
+    if params[:child].present?
+      @children = current_user.children.find(params[:child])
+    else
+      @children = []
+    end
+
     # -------ここから臨時収入／支出金額を踏まえた純資産の再計算の処理-------
     # 現金・貯蓄金額を再計算するための変数として調整金額（収入）の配列をローカル変数に格納。ベストケースとワーストケースで入力フォームが分かれているため別々の変数を作成
     best_adjust_revenue_input_list = params[:best_adjust_revenue_input].map{|revenue| revenue.to_i }
@@ -101,7 +105,7 @@ class PropertiesController < ApplicationController
 
     # 現金・貯蓄金額を再計算。現金・貯蓄金額60年分の配列データをローカル変数に格納
     best_adjusted_cash_and_saving_list = @property.create_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children,best_adjust_revenue_input_list, best_adjust_expenditure_input_list)
-    worst_adjusted_cash_and_saving_list = @property.create_adjusted_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children,worst_adjust_revenue_input_list, worst_adjust_expenditure_input_list)
+    worst_adjusted_cash_and_saving_list = @property.create_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children,worst_adjust_revenue_input_list, worst_adjust_expenditure_input_list)
 
     # 再計算した現金・貯蓄金額のデータより総資産を再計算し、配列データとしてローカル変数に格納
     update_best_total_property_list = Property.data_extraction_every_5years(@property.create_total_property_list(@property,@household,@children,@property.best_annual_interest_rate,best_adjusted_cash_and_saving_list))
