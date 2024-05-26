@@ -19,7 +19,7 @@ https://docs.google.com/spreadsheets/d/1YZ8nFN4LWA6yrrYmEA5om3II1nLxB1l1ww1x_eU-
 https://drive.google.com/file/d/1LXW3FCn40_Ens41pPQgRV-vTUIG08oWr/view?usp=sharing
 # ER図
 https://drive.google.com/file/d/11G1ERp-meiERYQ1uAZtDbOQTXGnXwiQA/view?usp=sharing
-![ER図（今と未来のお金のデザイン） drawio](https://github.com/poon0523/money_design_app/assets/92773447/cf8ba532-7697-446f-a9fe-9e1555d3f74c)
+![ER図（今と未来のお金のデザイン）-ER図（最終版） drawio](https://github.com/poon0523/money_design_app/assets/92773447/f455449a-f70a-4a13-a738-00495e4592f6)
 
 # 画面遷移図
 - 【注意】1シートにすべての画面遷移を表現することが難しかったため、「ログアウト中の場合」「一般ユーザーがログイン中の場合」「管理者がログイン中の場合」で分けています
