@@ -28,9 +28,12 @@ https://drive.google.com/file/d/1uv1-Wifj6hqAvFROMwJNfJf6y8oEYlVw/view?usp=shari
 
 ![画面遷移図（今と未来のお金のデザイン）-ログアウト中の場合（最終版） drawio](https://github.com/poon0523/money_design_app/assets/92773447/42ede14c-35d3-4cea-8133-b8ed27bc7759)
 
-![画面遷移図（今と未来のお金のデザイン）-管理者がログイン中の場合（最終版） drawio](https://github.com/poon0523/money_design_app/assets/92773447/fb9131d1-dfa8-4329-a62f-5b3c012c3bf5)
+
+![画面遷移図（今と未来のお金のデザイン）-管理者がログイン中の場合（最終版） drawio (1)](https://github.com/poon0523/money_design_app/assets/92773447/c255ca0c-181a-4d07-a9d1-9c0e9e4775a9)
+
 
 ![画面遷移図（今と未来のお金のデザイン）-一般ユーザーがログイン中の場合（最終版） drawio](https://github.com/poon0523/money_design_app/assets/92773447/6b085c12-d6e3-47be-8df3-d6a8954e109c)
+
 
 =======
 
