@@ -35,7 +35,7 @@
             <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
             <% if current_user.children.empty? %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value:0, readonly: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value:0, disabled: true  %>
               </div>
               <div>
                 <small>0人のお子様の教育費</small><br>
@@ -74,7 +74,7 @@
             <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
             <% if current_user.children.empty? %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value:0, readonly: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value:0, disabled: true %>
               </div>
               <div>
                 <small>0人のお子様の教育費</small><br>
