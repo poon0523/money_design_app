@@ -109,7 +109,6 @@ class ChildrenController < ApplicationController
     # 本処理でユーザーの持つすべての子どもの情報を削除するか否かを判別するため、newアクション、editアクションで@destroy_targetフラグを持たせている
     # @destroy_target=trueの場合、ユーザーが持つすべての子どもの情報を削除する
     def destroy_for_fail_save
-        binding.pry
         if params[:destroy_target] == "true"
             if @children.present?
                 @children.each do |child|
