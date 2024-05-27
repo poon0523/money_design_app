@@ -1,12 +1,12 @@
 <%= form_with(model: @household) do |form| %>
   <% if household.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@household.errors.count, "error") %> prohibited this household from being saved:</h2>
+      <h2><%= @household.errors.count %> 件のエラーが発生したため、保存されませんでした</h2>
 
       <ul>
-        <% @household.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
+        <% @error_item_list.each do |error| %>
+          <li><%= error %>が未入力です</li>
+        <% end %> 
       </ul>
     </div>
   <% end %>
@@ -31,11 +31,11 @@
         <div class="form_field_div">
 
           <% if ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name == "教育費" %>
-            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？(自動入力、編集不可)", class: "form_field_label" %>
             <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
             <% if current_user.children.empty? %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value:0, disabled: true  %>
+                <%= amount_form.text_field :amount, class: "form-control", value:0, readonly: true  %>
               </div>
               <div>
                 <small>0人のお子様の教育費</small><br>
@@ -43,7 +43,7 @@
 
             <% else %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, disabled: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, readonly: true %>
               </div>
               <div>
                 <% current_user.children.each do |child| %>
@@ -70,11 +70,11 @@
         <div class="form_field_div">
 
           <% if ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name == "教育費" %>
-            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？", class: "form_field_label" %>
+            <%= amount_form.label "毎月の#{ExpenseRevenueItem.all.find(amount.expense_revenue_item_id).name}は？(自動入力、編集不可)", class: "form_field_label" %>
             <p hidden><%= amount_form.text_field :expense_revenue_item_id %></p>
             <% if current_user.children.empty? %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value:0, disabled: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value:0, readonly: true %>
               </div>
               <div>
                 <small>0人のお子様の教育費</small><br>
@@ -82,7 +82,7 @@
 
             <% else %>
               <div>
-                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, disabled: true %>
+                <%= amount_form.text_field :amount, class: "form-control", value: (Child.create_total_education_expense_list(current_user.children).first)/12, readonly: true %>
               </div>
               <div>
                 <% current_user.children.each do |child| %>
