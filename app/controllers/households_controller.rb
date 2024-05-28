@@ -10,10 +10,10 @@ class HouseholdsController < ApplicationController
     @households = current_user.households.all
 
     if params[:child_create] == "true" 
-      flash[:notice] = "アカウントと子どもの情報を登録しました"
+      flash.now[:notice] = "アカウントと子どもの情報を登録しました"
       render :index
     elsif params[:child_update] == "true"
-      flash[:notice] = "アカウントと子どもの情報を更新しました"
+      flash.now[:notice] = "アカウントと子どもの情報を更新しました"
     else
     end
 

@@ -4,11 +4,17 @@
 </div>
 
 <% children.each_with_index do |child,index| %>
-    <%= form_with model: child, class: "child_create_form", local: false do |form|  %>
+    <%= form_with model: child, class: "child_create_form", local: false do |form|  %>  
     
         <br>
         <h6><%= "<#{child.birth_order}人目のお子様の基本情報と教育方針>" %></h6>
         <input hidden id = <%= "#{child.birth_order}th_child_form_submit_check" %> class = "check" value = "unsubmit">
+
+        <br>
+        
+        <div id=<%= "error_area_#{child.birth_order}th" %>></div>
+
+        <br>
 
         <div hidden>
             <%= form.label :birth_order, class: "form_field_label"  %>

@@ -72,15 +72,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
    # deviseのビルドインメソッドを通して、アカウント編集後のリダイレクト先を指定
   def after_update_path_for(resource)
-    # 子どもがいる場合は「子ども情報登録」に遷移する
+    # 子どもがいる場合は「子ども情報編集」に遷移する
     if current_user.children_number > 0  && current_user.children.all.present?
       edit_child_path(current_user.children.first)
+    # 子どもはいるが、子どもの情報が未登録の場合は「子ども情報登録」に遷移する
     elsif current_user.children_number > 0  && current_user.children.all.empty?
       flash[:notice] = 'アカウントを更新しました。お子様の情報が未登録のためご登録ください'
       new_child_path
-    else
-      flash[:notice] = 'アカウントを更新しました'
-      households_path
+    # 子どもが0人で、子どもの情報がない場合は「子どもの情報登録」に遷移し、子どもの人数に変更があるかを確認した上で処理が分岐する
+    elsif current_user.children_number == 0  && current_user.children.all.empty?
+      flash[:notice] = 'アカウントを更新しました。続けて、お子様の情報をご登録ください'
+      new_child_path
     end
   end    
 
