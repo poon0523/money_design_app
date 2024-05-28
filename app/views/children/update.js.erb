@@ -26,7 +26,7 @@ $(function(){
                 <% @child.errors.each do |error| %>
                     $('#<%= "error_messages_#{@child.birth_order}th" %>').append('<li><%= error.full_message %></li>')
                 <% end %>
-                $('#children_notice').html('<p class="customized_notice_and_alert">お子様の情報の入力値に誤りがあったため処理を中断しました。改めて正しくご入力くださ</p>')
+                $('#children_notice').html('<p class="customized_notice_and_alert">お子様の情報の入力値に誤りがあったため処理を中断しました。改めて正しくご入力ください</p>')
             <% end %>
             if (result_unsubmit===-1&&result_failed===-1) {
                 console.log("すべての処理が完了");
