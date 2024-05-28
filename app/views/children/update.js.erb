@@ -19,6 +19,15 @@ $(function(){
                 return $(this).val();});
             var result_unsubmit = (submit_result_list).get().indexOf("unsubmit");
             var result_failed = (submit_result_list).get().indexOf("failed");
+            <% if @child.errors.any? %>
+                $('#<%= "error_area_#{@child.birth_order}th" %>').append('<div id=<%= "error_explanation_#{@child.birth_order}th" %> class="error_explanation_for_children"></div>')
+                $('#<%= "error_explanation_#{@child.birth_order}th" %>').append('<h2><%= @child.errors.count %> 件のエラーが発生したため、保存されませんでした</h2>')
+                $('#<%= "error_explanation_#{@child.birth_order}th" %>').append('<ul id= <%= "error_messages_#{@child.birth_order}th" %>></ul>')
+                <% @child.errors.each do |error| %>
+                    $('#<%= "error_messages_#{@child.birth_order}th" %>').append('<li><%= error.full_message %></li>')
+                <% end %>
+                $('#children_notice').html('<p class="customized_notice_and_alert">お子様の情報の入力値に誤りがあったため処理を中断しました。改めて正しくご入力くださ</p>')
+            <% end %>
             if (result_unsubmit===-1&&result_failed===-1) {
                 console.log("すべての処理が完了");
                 window.location.href = '/households'+"?child_update=" + "true";

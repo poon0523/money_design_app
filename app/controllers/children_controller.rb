@@ -5,9 +5,14 @@ class ChildrenController < ApplicationController
     before_action :get_created_children, only: %i[ destroy_for_fail_save ]
 
     def new
-        # 子どもの人数分のChildインスタンス作成し、配列としてインスタンス変数に格納
-        @children = Child.create_child_and_children_education_instances(current_user)
-        @destroy_target = true
+        if current_user.children.all.length == 0 && current_user.children_number == 0
+            flash[:notice] = "アカウントを更新しました。"
+            redirect_to households_path
+        else
+            # 子どもの人数分のChildインスタンス作成し、配列としてインスタンス変数に格納
+            @children = Child.create_child_and_children_education_instances(current_user)
+            @destroy_target = true
+        end
     end
 
     def edit
@@ -22,10 +27,15 @@ class ChildrenController < ApplicationController
             current_user.children.all.each do |child|
                 child.destroy
             end
-            # 再登録用に改めて子どもの人数分のインスタンスを作成
-            @children = Child.create_child_and_children_education_instances(current_user)
-            @destroy_target = true 
-            flash.now[:notice]  = "お子様の人数に変更があったため、改めてすべてのお子様の情報をご登録ください"
+            # 子どもの人数を0人に変更した場合は家計状況一覧画面に遷移
+            if current_user.children_number == 0
+                redirect_to households_path, notice: "アカウントを更新しました。"
+            else
+                # 再登録用に改めて子どもの人数分のインスタンスを作成
+                @children = Child.create_child_and_children_education_instances(current_user)
+                @destroy_target = true 
+                flash.now[:notice]  = "お子様の人数に変更があったため、改めてすべてのお子様の情報をご登録ください"
+            end
         end
     end
 
@@ -95,9 +105,9 @@ class ChildrenController < ApplicationController
     # 子どもの（Childモデル）と子どもの教育方針（ChildEducationモデル）の情報を更新する処理
     # 処理内容はcreateアクションと同じ
     def update
-        @child = current_user.children.find(params[:id]).update(children_params);
+        @child = current_user.children.find(params[:id]);
         @birth_order = (params[:child][:birth_order]).to_i;
-        if @child
+        if @child.update(children_params)
             @save_success = true
         else 
             @save_success = false
@@ -106,6 +116,7 @@ class ChildrenController < ApplicationController
 
 
     # 1ユーザーにつき複数名の子どもの情報をcreateもしくはupdateする際に1人でも処理に失敗した場合に、それまでの処理を削除するための処理
+    # JSON形式でリクエストを受け取るため、destroy_for_fail_save.js.erbをレンダリングするが、画面遷移せずにエラーメッセージが表示された状態で同じ画面を表示させたいので、destroy_for_fail_save.js.erbには何も記述してない状態
     # 本処理でユーザーの持つすべての子どもの情報を削除するか否かを判別するため、newアクション、editアクションで@destroy_targetフラグを持たせている
     # @destroy_target=trueの場合、ユーザーが持つすべての子どもの情報を削除する
     def destroy_for_fail_save
@@ -115,10 +126,7 @@ class ChildrenController < ApplicationController
                     child.destroy
                 end
             end
-            redirect_to new_child_path, notice: "お子様の情報の入力値に誤りがあったため処理を中断しました。改めて正しくご入力ください"
         else
-            flash[:notice] = "編集されたお子様の情報に誤りがあったため処理を中断しました。改めて正しくご入力ください"
-            render :edit
         end
     end
 
