@@ -62,11 +62,6 @@ RSpec.describe Property, type: :model do
       expect(result_get_property_id.id).to eq property.id
     end
 
-    it "資産状況を観察する年数を設定するメソッド" do
-      # 資産状況を観察する年数=60年なので、クラスメソッド「set_years_of_observation」が60と等しいことを確認
-      expect(Property.set_years_of_observation).to eq 60
-    end
-
     it "（★）資産状況テーブル表示用として60年間のうち、5年置きに年度を抽出して格納するためのメソッド" do
       # (1)Excelで今年(2024年)から60年間の年度のデータセットを作成の上、5年置きに年度を抽出したデータセットをローカル変数に格納
       expected_years_list_every_5years = file_fixture("expecte_years_list_every_5years.csv").read.split(',').map(&:to_i)
@@ -118,7 +113,7 @@ RSpec.describe Property, type: :model do
 
     it "投資資産額60年分のデータを作成するメソッド-投資利率が好調の場合を想定（=best_annual_interest_rate)" do
       expected_best_investment_property_list = file_fixture("expected_best_investment_property_list.csv").read.split(',').map(&:to_i)
-      actual_best_investment_property_list = property.create_investment_list(users_household.get_specific_expense_revenue_amount(users_household,"積立投資額"),property.best_annual_interest_rate.truncate(2))
+      actual_best_investment_property_list = property.create_investment_list(users_household.get_specific_expense_revenue_amount("積立投資額"),property.best_annual_interest_rate.truncate(2))
       actual_best_investment_property_list.each_with_index do |best_investment_property, index|
         expect(best_investment_property.round).to eq expected_best_investment_property_list[index]
       end          
@@ -134,7 +129,7 @@ RSpec.describe Property, type: :model do
 
     it "ローン60年分のデータを作成するメソッド-使用資産は「車」を想定" do
       expected_car_loan_list = file_fixture("expected_car_loan_list.csv").read.split(',').map(&:to_i)
-      actual_car_loan_list = property.create_loan_list(property.car_present_loan_balance, users_household.get_specific_expense_revenue_amount(users_household,"ローン返済額（車）"), property.car_loan_interest_rate)
+      actual_car_loan_list = property.create_loan_list(property.car_present_loan_balance, users_household.get_specific_expense_revenue_amount("ローン返済額（車）"), property.car_loan_interest_rate)
       actual_car_loan_list.each_with_index do |actual_car_loan, index|
         expect(actual_car_loan.round).to eq expected_car_loan_list[index]
       end          

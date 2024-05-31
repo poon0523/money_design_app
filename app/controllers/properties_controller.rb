@@ -38,9 +38,9 @@ class PropertiesController < ApplicationController
         # 1.現金・貯蓄
         @cash_and_saving = @property.create_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children)
         # 2-1.投資資産（ベストケース）
-        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.best_annual_interest_rate.truncate(2))
+        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.best_annual_interest_rate.truncate(2))
         # 2-2.投資資産（ワーストケース）
-        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.worst_annual_interest_rate.truncate(2))
+        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.worst_annual_interest_rate.truncate(2))
         # 3-1.使用資産（車）
         @car_property = @property.create_used_properties_list(@property.car_properties_present_value,@property.car_annual_residual_value_rate)
         # 3-2.使用資産（住宅）
@@ -48,11 +48,11 @@ class PropertiesController < ApplicationController
         # 3-3.使用資産（その他）
         @other_property = @property.create_used_properties_list(@property.other_properties_present_value,@property.other_annual_residual_value_rate)
         # 4-1.ローン（車）
-        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（車）"), @property.car_loan_interest_rate)
+        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（車）"), @property.car_loan_interest_rate)
         # 4-2.ローン（住宅）
-        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（住宅）"), @property.housing_loan_interest_rate)
+        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（住宅）"), @property.housing_loan_interest_rate)
         # 4-3.ローン（その他）
-        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（その他）"), @property.other_loan_interest_rate)
+        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（その他）"), @property.other_loan_interest_rate)
         # 純資産（ベストケース）
         @best_net_property = @property.create_net_property_list(@property,@household,@children,@property.best_annual_interest_rate.truncate(2))
         # 純資産（ワーストケース）
@@ -141,9 +141,9 @@ class PropertiesController < ApplicationController
         # 1.現金・貯蓄
         @cash_and_saving = @property.create_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children)
         # 2-1.投資資産（ベストケース）
-        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.best_annual_interest_rate.truncate(2))
+        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.best_annual_interest_rate.truncate(2))
         # 2-2.投資資産（ワーストケース）
-        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.worst_annual_interest_rate.truncate(2))
+        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.worst_annual_interest_rate.truncate(2))
         # 3-1.使用資産（車）
         @car_property = @property.create_used_properties_list(@property.car_properties_present_value,@property.car_annual_residual_value_rate)
         # 3-2.使用資産（住宅）
@@ -151,11 +151,11 @@ class PropertiesController < ApplicationController
         # 3-3.使用資産（その他）
         @other_property = @property.create_used_properties_list(@property.other_properties_present_value,@property.other_annual_residual_value_rate)
         # 4-1.ローン（車）
-        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（車）"), @property.car_loan_interest_rate)
+        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（車）"), @property.car_loan_interest_rate)
         # 4-2.ローン（住宅）
-        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（住宅）"), @property.housing_loan_interest_rate)
+        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（住宅）"), @property.housing_loan_interest_rate)
         # 4-3.ローン（その他）
-        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（その他）"), @property.other_loan_interest_rate)
+        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（その他）"), @property.other_loan_interest_rate)
         # 純資産（ベストケース）
         @best_net_property = @property.create_net_property_list(@property,@household,@children,@property.best_annual_interest_rate.truncate(2))
         # 純資産（ワーストケース）
@@ -183,9 +183,9 @@ class PropertiesController < ApplicationController
         # 1.現金・貯蓄
         @cash_and_saving = @property.create_cash_and_saving_list(@household.joins_data_expense_revenue_amount_and_item(@household),@children)
         # 2-1.投資資産（ベストケース）
-        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.best_annual_interest_rate.truncate(2))
+        @best_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.best_annual_interest_rate.truncate(2))
         # 2-2.投資資産（ワーストケース）
-        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount(@household,"積立投資額"),@property.worst_annual_interest_rate.truncate(2))
+        @worst_investment_properties = @property.create_investment_list(@household.get_specific_expense_revenue_amount("積立投資額"),@property.worst_annual_interest_rate.truncate(2))
         # 3-1.使用資産（車）
         @car_property = @property.create_used_properties_list(@property.car_properties_present_value,@property.car_annual_residual_value_rate)
         # 3-2.使用資産（住宅）
@@ -193,11 +193,11 @@ class PropertiesController < ApplicationController
         # 3-3.使用資産（その他）
         @other_property = @property.create_used_properties_list(@property.other_properties_present_value,@property.other_annual_residual_value_rate)
         # 4-1.ローン（車）
-        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（車）"), @property.car_loan_interest_rate)
+        @car_loan = @property.create_loan_list(@property.car_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（車）"), @property.car_loan_interest_rate)
         # 4-2.ローン（住宅）
-        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（住宅）"), @property.housing_loan_interest_rate)
+        @housing_loan = @property.create_loan_list(@property.housing_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（住宅）"), @property.housing_loan_interest_rate)
         # 4-3.ローン（その他）
-        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount(@household,"ローン返済額（その他）"), @property.other_loan_interest_rate)
+        @other_loan = @property.create_loan_list(@property.other_present_loan_balance, @household.get_specific_expense_revenue_amount("ローン返済額（その他）"), @property.other_loan_interest_rate)
         # 純資産（ベストケース）
         @best_net_property = @property.create_net_property_list(@property,@household,@children,@property.best_annual_interest_rate.truncate(2))
         # 純資産（ワーストケース）

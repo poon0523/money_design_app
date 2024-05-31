@@ -26,8 +26,8 @@ class Household < ApplicationRecord
     # 資産状況のモデル、アクションで使用するメソッド
     # expense_revenue_amountsテーブルとexpense_revenue_itemテーブルを結合した上で指定の収支項目の金額を取得する
     # 任意のhouseholdに紐づくデータを抽出したいため、インスタンドメソッドとして作成
-    def get_specific_expense_revenue_amount(household,item_name)
-        return household.expense_revenue_amounts.joins(:expense_revenue_item).find_by(expense_revenue_item: {name: item_name}).amount
+    def get_specific_expense_revenue_amount(item_name)
+        return expense_revenue_amounts.joins(:expense_revenue_item).find_by(expense_revenue_item: {name: item_name}).amount
     end
 
     # 資産状況のモデル、アクションで使用するメソッド

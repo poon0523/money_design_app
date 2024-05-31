@@ -18,7 +18,7 @@ class Property < ApplicationRecord
     scope :get_property_id, ->(current_user){current_user.households.first.properties.first}
 
     # 資産状況を観察する年数を設定
-    scope :set_years_of_observation, -> {60}
+    YEARS_OF_OBSERVATION = 60
 
     # 資産状況テーブル表示用の年度リスト作成（データ自体は60年分作成するが、詳細画面には5年おきでデータを表示させるため、5年おきのデータを作成）
     scope :create_years_list_every_5years, ->{
@@ -26,7 +26,7 @@ class Property < ApplicationRecord
         this_year = Date.today.year
         years_list = []
         # 現在から○年後のデータを表示するため○年数分の各年の値を作成
-        set_years_of_observation.times do |year|
+        Property::YEARS_OF_OBSERVATION.times do |year|
             if year == 0
                 years_list.push(this_year)
             else
@@ -79,7 +79,7 @@ class Property < ApplicationRecord
         if children.length > 0
             education_expense_list = Child.create_total_education_expense_list(children)
         else
-            education_expense_list = Array.new(Property.set_years_of_observation,0)
+            education_expense_list = Array.new(Property::YEARS_OF_OBSERVATION,0)
         end
 
         # 経年の現金・貯蓄額のリストを作成（今年の現金・貯蓄額を翌年に積み上げて経年の現金・貯蓄額の推移のデータを作成）
@@ -88,7 +88,7 @@ class Property < ApplicationRecord
             adjust_revenue_expenditure_index_count = 0
             annual_cash_and_saving_list = []
             # アプリ上、臨時収入・臨時支出は5年置きに入力可能としているため、5年置きにadjust_revenue_listとadjust_expenditure_listの値を現金・貯蓄額に含める
-            Property.set_years_of_observation.times do |year|
+            Property::YEARS_OF_OBSERVATION.times do |year|
                 # 観測初年→臨時収入・臨時支出を現金・貯蓄額に含める
                 if year == 0 
                     adjust_revenue_and_expenditure_amount = (adjust_revenue_list[adjust_revenue_expenditure_index_count])-(adjust_expenditure_list[adjust_revenue_expenditure_index_count])
@@ -108,7 +108,7 @@ class Property < ApplicationRecord
         # 臨時収入、もしくは臨時支出がない場合
         else
             annual_cash_and_saving_list = []
-            Property.set_years_of_observation.times do |year|
+            Property::YEARS_OF_OBSERVATION.times do |year|
                 if year == 0
                     annual_cash_and_saving_list.push(annual_cash_and_saving-education_expense_list[year])
                 else
@@ -127,7 +127,7 @@ class Property < ApplicationRecord
         count_of_year = 1
         # 経年の投資資産額のリストを作成
         annual_investment_property_list = []
-        Property.set_years_of_observation.times do 
+        Property::YEARS_OF_OBSERVATION.times do 
             # 投資の複利計算式：((1+(年利%/12))^12カ月-1)/月利*標準月積立金額)
             after_investment_property_list = (((1+(annual_interest_rate/12))**(12*count_of_year)-1)/(annual_interest_rate/12)*monthly_reserve_investment)
             count_of_year += 1
@@ -140,7 +140,7 @@ class Property < ApplicationRecord
     def create_used_properties_list(present_value,annual_residual_value_rate)
         present_value_list = []
         previous_year_value = 0
-        Property.set_years_of_observation.times do |year|
+        Property::YEARS_OF_OBSERVATION.times do |year|
             if year == 0
                 present_value_list.push(present_value)
                 previous_year_value = present_value
@@ -163,7 +163,7 @@ class Property < ApplicationRecord
         # 当年のローン残高を格納する変数
         this_year_loan_balance = 0
         if initial_loan_balance > 0
-            Property.set_years_of_observation.times do |year|
+            Property::YEARS_OF_OBSERVATION.times do |year|
                 # 初年度のローン残高は初回登録時のローン残高として残高リストに追加
                 if year == 0
                     loan_balance_list.push(initial_loan_balance)
@@ -178,7 +178,7 @@ class Property < ApplicationRecord
                 end
             end
         else
-            Property.set_years_of_observation.times do |year|
+            Property::YEARS_OF_OBSERVATION.times do |year|
                 loan_balance_list.push(0)
             end
         end
@@ -193,7 +193,7 @@ class Property < ApplicationRecord
         else
             cash_and_saving_list = create_cash_and_saving_list(household.joins_data_expense_revenue_amount_and_item(household),children)
         end
-        investment_list = create_investment_list(household.get_specific_expense_revenue_amount(household,"積立投資額"),annual_interest_rate)
+        investment_list = create_investment_list(household.get_specific_expense_revenue_amount("積立投資額"),annual_interest_rate)
         car_property_list = create_used_properties_list(property.car_properties_present_value,property.car_annual_residual_value_rate)
         housing_property_list = create_used_properties_list(property.housing_properties_present_value,property.housing_annual_residual_value_rate)
         other_property_list = create_used_properties_list(property.other_properties_present_value,property.other_annual_residual_value_rate)
@@ -204,9 +204,9 @@ class Property < ApplicationRecord
 
     # 総負債60年分のデータ作成
     def create_total_liability_list(property,household,children)
-        car_loan_list = create_loan_list(property.car_present_loan_balance, household.get_specific_expense_revenue_amount(household,"ローン返済額（車）"),property.car_loan_interest_rate)
-        housing_loan_list = create_loan_list(property.housing_present_loan_balance, household.get_specific_expense_revenue_amount(household,"ローン返済額（住宅）"), property.housing_loan_interest_rate)
-        other_loan_list = create_loan_list(property.other_present_loan_balance, household.get_specific_expense_revenue_amount(household,"ローン返済額（その他）"), property.other_loan_interest_rate)
+        car_loan_list = create_loan_list(property.car_present_loan_balance, household.get_specific_expense_revenue_amount("ローン返済額（車）"),property.car_loan_interest_rate)
+        housing_loan_list = create_loan_list(property.housing_present_loan_balance, household.get_specific_expense_revenue_amount("ローン返済額（住宅）"), property.housing_loan_interest_rate)
+        other_loan_list = create_loan_list(property.other_present_loan_balance, household.get_specific_expense_revenue_amount("ローン返済額（その他）"), property.other_loan_interest_rate)
         return [car_loan_list,housing_loan_list,other_loan_list].transpose.map{ |annual_total_liabilities|
         annual_total_liabilities.inject(:+) }
     

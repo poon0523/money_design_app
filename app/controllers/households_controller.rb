@@ -76,16 +76,15 @@ class HouseholdsController < ApplicationController
         format.json { render :show, status: :created, location: @household }
       else
         # @householdの情報からバリデーションエラーが発生した収支項目を特定することができないため、以下の(1)~(3)のparamsの情報からエラーが発生した収支項目一覧を作成する
-        # (1)全収支項目のidを取得するため、ExpenseRevunueItemテーブルにある全idを配列として取得
-        expense_revenue_item_id_list = ExpenseRevenueItem.select("id").map { |item| item.id }
+        # (1)全収支項目のidとnameを取得するため、ExpenseRevunueItemテーブルにある全idとnameを配列として取得
+        expense_revenue_item_id_name_list = ExpenseRevenueItem.select("id,name").map { |item| [item.id, item.name] }
         # (2)エラーが発生した収支項目一覧の作成
         @error_item_list = []
         # (3)収支項目のうち、金額の値が未入力（＝空白）のものを特定し、その収支項目名を取得し、(2)の配列に追加する
-        expense_revenue_item_id_list.each do |item_id|
-          id = (item_id - 1).to_s
+        expense_revenue_item_id_name_list.each do |item|
+          id = (item.first - 1).to_s
           if params[:household][:expense_revenue_amounts_attributes][id][:amount] == ""
-            name = ExpenseRevenueItem.find(params[:household][:expense_revenue_amounts_attributes][id][:expense_revenue_item_id]).name
-            @error_item_list.push(name)
+            @error_item_list.push(item.second)
           else
           end
         end
@@ -102,16 +101,15 @@ class HouseholdsController < ApplicationController
         format.json { render :show, status: :ok, location: @household }
       else
         # @householdの情報からバリデーションエラーが発生した収支項目を特定することができないため、以下の(1)~(3)のparamsの情報からエラーが発生した収支項目一覧を作成する
-        # (1)全収支項目のidを取得するため、ExpenseRevunueItemテーブルにある全idを配列として取得
-        expense_revenue_item_id_list = ExpenseRevenueItem.select("id").map { |item| item.id }
+        # (1)全収支項目のidとnameを取得するため、ExpenseRevunueItemテーブルにある全idとnameを配列として取得
+        expense_revenue_item_id_name_list = ExpenseRevenueItem.select("id,name").map { |item| [item.id, item.name] }
         # (2)エラーが発生した収支項目一覧の作成
         @error_item_list = []
         # (3)収支項目のうち、金額の値が未入力（＝空白）のものを特定し、その収支項目名を取得し、(2)の配列に追加する
-        expense_revenue_item_id_list.each do |item_id|
-          id = (item_id - 1).to_s
+        expense_revenue_item_id_name_list.each do |item|
+          id = (item.first - 1).to_s
           if params[:household][:expense_revenue_amounts_attributes][id][:amount] == ""
-            name = ExpenseRevenueItem.find(params[:household][:expense_revenue_amounts_attributes][id][:expense_revenue_item_id]).name
-            @error_item_list.push(name)
+            @error_item_list.push(item.second)
           else
           end
         end
