@@ -61,7 +61,7 @@ RSpec.describe Household, type: :model do
       FactoryBot.create(:expense_revenue_item1, household: household, expense_revenue_item: expense_revenue_item2, amount: 5000)
       FactoryBot.create(:expense_revenue_item1, household: household, expense_revenue_item: expense_revenue_item3, amount: 2000)
       # (4)引数に金額を参照したい収支項目名を指定し、テストデータとして定義した金額と一致するかを確認
-      expect(household.get_specific_expense_revenue_amount(household,expense_revenue_item1.name)).to eq 30000
+      expect(household.get_specific_expense_revenue_amount(expense_revenue_item1.name)).to eq 30000
     end
 
     it "expense_revenue_amountsテーブルとexpense_revenue_itemテーブルを結合するメソッド" do

@@ -11,7 +11,7 @@ class EducationExpense < ApplicationRecord
 
     # enumの設定
     enum management_organization: { "公立": 1, "私立": 2 }
-    enum university_major: { "理系": 1, "文系": 2 }
+    enum university_major: { "なし": 0, "理系": 1, "文系": 2 }
     enum education_institution_type:{ "保育園": 1, "幼稚園": 2, "小学校": 3, "中学校": 4, "高校": 5, "専門学校": 6, "4年生大学": 7, "6年生大学": 8 }
     enum boarding_house:{"下宿なし": 0, "下宿あり": 1 }
 

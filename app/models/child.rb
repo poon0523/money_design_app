@@ -60,7 +60,7 @@ class Child < ApplicationRecord
         EducationExpense.joins(:child_educations).select("education_expenses.*, child_educations.child_id").where( child_educations:{child_id: child.id} )
     # 資産状況観測対象期間分の教育費用をeducation_expenses_of_every_education_institution_typeから参照し、education_expenses_listに順番に追加
     # education_expenses_of_every_education_institution_typeのうち、どの値を参照するかは子どもの年齢により判断する
-    Property.set_years_of_observation.times do
+    Property::YEARS_OF_OBSERVATION.times do
         # privateメソッドであるcalc_age_of_childメソッドより各年時点での子どもの年齢を算出
         age = Child.calc_age_of_child(base_year_month_day,child.birth_year_month_day)
 

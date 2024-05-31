@@ -204,7 +204,7 @@ RSpec.describe "Households", type: :system do
       # 登録失敗した場合に、詳細画面には遷移せず、登録画面が表示されているかを画面タイトルから確認
       expect(page).to have_content("家計状況登録")
       # 登録失敗のメッセージが表示されているかを確認
-      expect(page).to have_content("いずれかの金額が未入力です")
+      expect(page).to have_content("医療費が未入力です")
     end
 
     it "（画面遷移テスト）「戻る」リンクを押下すると、家計状況一覧画面に遷移すること" do
@@ -316,7 +316,7 @@ RSpec.describe "Households", type: :system do
       # 登録失敗した場合に、詳細画面には遷移せず、登録画面が表示されているかを画面タイトルから確認
       expect(page).to have_content("家計状況編集")
       # 登録失敗のメッセージが表示されているかを確認
-      expect(page).to have_content("いずれかの金額が未入力です")
+      expect(page).to have_content("医療費が未入力です")
     end
 
     it "（画面遷移テスト）「戻る」リンクを押下すると、家計状況一覧画面に遷移すること" do
