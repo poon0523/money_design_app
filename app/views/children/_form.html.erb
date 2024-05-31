@@ -293,9 +293,9 @@
         <div>
             <%= university.label "理系／文系" %>
             <% if child.child_educations.exists? %>
-                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major, selected: child.get_child_education_data(6..8, child).university_major %>
+                <%= university.collection_select :university_major, EducationExpense.select("university_major").where.not(university_major: "なし").distinct, :university_major, :university_major, selected: child.get_child_education_data(6..8, child).university_major %>
             <% else %>
-                <%= university.collection_select :university_major, EducationExpense.select("university_major").distinct, :university_major, :university_major, {}, id: "select_university_major_#{child.birth_order}" %>
+                <%= university.collection_select :university_major, EducationExpense.select("university_major").where.not(university_major: "なし").distinct, :university_major, :university_major, {}, id: "select_university_major_#{child.birth_order}" %>
             <% end %>
         </div>
 
